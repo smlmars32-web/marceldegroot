@@ -1,0 +1,682 @@
+﻿<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BotNet Attack  Vegro.nl</title>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+Chettan+2:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+
+
+<div class="slide-dots" id="slideDots"></div>
+<div class="slide-counter" id="slideCounter"></div>
+
+<!-- HERO -->
+<section id="hero" class="parallax-section">
+  <div id="hero-bg-fallback"></div>
+  <div class="parallax-bg" id="heroBg" style="background:linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%), url('images/Ingrid_op_scootmobiel_2_min.jpg') 80% center/cover no-repeat;"></div>
+  <div class="section-content">
+    <div class="hero-inner" style="justify-content:center;align-items:center;">
+      <div style="text-align:center;">
+        <h1 class="hero-title reveal d1"><span class="glitch" data-text="Bot" style="color:#e53935;">Bot</span>Net Attack<br>Vegro.nl</h1>
+      </div>
+    </div>
+  </div>
+  <div class="vegro-logo-hero reveal">
+    <img src="images/logo.png" alt="Vegro" style="height:52px;width:auto;filter:drop-shadow(0 2px 8px rgba(0,0,0,.35));" />
+  </div>
+  <div class="reveal" style="position:absolute;bottom:8rem;left:3rem;z-index:4;">
+    <div style="font-size:clamp(2rem,3vw,2.8rem);font-weight:700;color:#fff;line-height:1.2;">Marcel de Groot</div>
+    <div style="font-size:clamp(1.5rem,2vw,2rem);color:rgba(255,255,255,.5);margin-top:.2rem;">Lead Software Engineer</div>
+  </div>
+  
+  <div class="wave-bottom"><svg viewBox="0 0 1440 80" preserveAspectRatio="none" fill="#f1f6fb"><path d="M0,40 C320,80 720,0 1080,50 C1200,65 1320,30 1440,40 L1440,80 L0,80 Z"/></svg></div>
+</section>
+
+<!-- AGENDA -->
+<section id="agenda" class="parallax-section">
+  <div class="parallax-bg" style="background:var(--bg-lighter);"></div>
+  <div class="section-content">
+    <div class="section-inner">
+      <div class="reveal">
+        <div class="section-label">&#128203; Overview</div>
+        <h2 class="section-title">Agenda</h2>
+        <p class="section-desc">What are we covering today in this incident report?</p>
+      </div>
+      <div class="agenda-grid">
+        <div class="agenda-card reveal d1"><div class="agenda-num">01</div><h3>IT Team</h3><p>Who is involved in this incident from Vegro side?</p><img class="step-img" src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80" alt=""></div>
+        <div class="agenda-card reveal d2"><div class="agenda-num">02</div><h3>Vegro Websites</h3><p>Overview of the Vegro web platforms.</p><img class="step-img" src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800&q=80" alt=""></div>
+        <div class="agenda-card reveal d3"><div class="agenda-num">03</div><h3>Vegro.nl Performance</h3><p>The critical stats of the platform and why availability is essential.</p><img class="step-img" src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=800&q=80" alt=""></div>
+        <div class="agenda-card reveal d4" style="border-top-color:#c62828;"><div class="agenda-num" style="color:rgba(198,40,40,.15);">04</div><h3 style="color:#c62828;">WE ARE UNDER ATTACK</h3><p>CPU peak to 100%, website locked, customer service overloaded &mdash; Priority 1 activated.</p><img class="step-img" src="https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=800&q=80" alt=""></div>
+        <div class="agenda-card reveal d5"><div class="agenda-num">05</div><h3>Solution</h3><p>Application Gateway + WAF + geo-blocking China &mdash; implemented with Sciber.</p><img class="step-img" src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&q=80" alt=""></div>
+        <div class="agenda-card reveal" style="transition-delay:.6s"><div class="agenda-num">06</div><h3>Follow-up Steps</h3><p>Structural measures for early detection and broader protection.</p><img class="step-img" src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80" alt=""></div>
+      </div>
+    </div>
+  </div>
+  <div class="wave-bottom"><svg viewBox="0 0 1440 70" preserveAspectRatio="none" fill="#fff"><path d="M0,30 C400,70 900,0 1440,40 L1440,70 L0,70 Z"/></svg></div>
+</section>
+
+<!-- IT TEAM -->
+<section id="team" class="parallax-section">
+  <div class="parallax-bg" style="background:#2a3550;"></div>
+  <div class="section-content">
+    <div class="section-inner">
+      <div class="reveal"><div class="section-label" style="color:#7ec07b;">&#128101; Structure</div><h2 class="section-title" style="color:#fff;">VEGRO ICT</h2><p class="section-desc" style="color:rgba(255,255,255,.6);">Organisation of IT responsibilities involved in this incident.</p></div>
+      <div class="org-chart reveal d1">
+        <div class="oc-root">ICT <span class="oc-sub">(ICT Manager)</span></div>
+        <div class="oc-connector-root"></div>
+        <div class="oc-branches">
+          <div class="oc-branch">
+            <div class="oc-branch-line"></div>
+            <div class="oc-branch-head">A. Development <span class="oc-sub">(Lead Software Engineer)</span></div>
+            <div class="oc-items">
+              <div class="oc-item">1. Software development</div>
+              <div class="oc-item">2. Power Platform</div>
+              <div class="oc-item">3. Data</div>
+            </div>
+          </div>
+          <div class="oc-branch">
+            <div class="oc-branch-line"></div>
+            <div class="oc-branch-head">B. Operational Management <span class="oc-sub">(Operational Manager)</span></div>
+            <div class="oc-items">
+              <div class="oc-item">1. Support</div>
+              <div class="oc-item">2. Application management</div>
+              <div class="oc-item">3. Technical management</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="wave-bottom"><svg viewBox="0 0 1440 70" preserveAspectRatio="none" fill="var(--bg-light)"><path d="M0,55 C360,10 1000,70 1440,25 L1440,70 L0,70 Z"/></svg></div>
+</section>
+
+<!-- WEBSITES -->
+<section id="websites" class="parallax-section">
+  <div class="parallax-bg" style="background:#eef4fb;"></div>
+  <div class="section-content">
+    <div class="section-inner" style="padding:4.5rem;">
+      <div class="reveal" style="text-align:center;"><h2 class="section-title" style="font-size:clamp(1.8rem,4vw,4rem);">Vegro Websites</h2></div>
+      <div class="ws-stage reveal d1">
+
+        <!-- LEFT COL: vegro.nl (huren) + zakelijk/admin -->
+        <div class="ws-col">
+          <!-- Monitor 1: zakelijk -->
+          <div class="ws-monitor">
+            <div class="ws-screen-wrap">
+              <div class="ws-screen" style="padding:0;overflow:hidden;">
+                <img src="images/zakelijkvegro.png" alt="zakelijk.vegro.nl" style="width:100%;height:100%;object-fit:cover;object-position:top;display:block;">
+              </div>
+            </div>
+            <div class="ws-stand"></div><div class="ws-base"></div><div class="ws-shadow"></div>
+            <div class="ws-label"><span class="ws-dot" style="background:var(--green);"></span>zakelijk.vegro.nl</div>
+          </div>
+          <!-- Monitor 2: portaal -->
+          <div class="ws-monitor">
+            <div class="ws-screen-wrap">
+              <div class="ws-screen" style="padding:0;overflow:hidden;">
+                <img src="images/portaal.png" alt="portaal.vegro.nl" style="width:100%;height:100%;object-fit:cover;object-position:top;display:block;">
+              </div>
+            </div>
+            <div class="ws-stand"></div><div class="ws-base"></div><div class="ws-shadow"></div>
+            <div class="ws-label"><span class="ws-dot" style="background:#ff9800;"></span>portaal.vegro.nl</div>
+          </div>
+        </div>
+
+        <!-- CENTER: vegro.nl main (large, attacked) -->
+        <div class="ws-col">
+          <div class="ws-monitor lg">
+            <div class="ws-screen-wrap">
+              <div class="ws-screen" style="padding:0;overflow:hidden;">
+                <img src="images/vegro.nl.png" alt="vegro.nl" style="width:100%;height:100%;object-fit:cover;object-position:top;display:block;">
+              </div>
+            </div>
+            <div class="ws-stand"></div><div class="ws-base"></div><div class="ws-shadow" style="width:40%;"></div>
+            <div class="ws-label" style="justify-content:center;font-size:clamp(.75rem,1.1vw,1.1rem);"><span class="ws-dot" style="background:#e53935;animation:blink 1s infinite;"></span>vegro.nl &mdash; <strong>Primary target</strong></div>
+          </div>
+        </div>
+
+        <!-- RIGHT COL: app+bestel (phone+tablet) + vacatures -->
+        <div class="ws-col">
+          <!-- Phone + tablet pair -->
+          <div class="ws-device-pair" style="align-items:center;">
+            <div class="ws-phone">
+              <div class="ws-phone-screen" style="padding:0;overflow:hidden;">
+                <img src="images/bestel.vegro.nl.png" alt="bestel.vegro.nl" style="width:100%;height:100%;object-fit:cover;object-position:top;display:block;">
+              </div>
+            </div>
+            <div class="ws-monitor ws-tablet">
+              <div class="ws-screen-wrap" style="aspect-ratio:4/3;">
+                <div class="ws-screen" style="padding:0;overflow:hidden;">
+                  <img src="images/locatie.vegro.nl.png" alt="locatie.vegro.nl" style="width:100%;height:100%;object-fit:cover;object-position:top;display:block;">
+                </div>
+              </div>
+              <div class="ws-stand" style="width:14%;"></div><div class="ws-base" style="width:28%;"></div>
+            </div>
+          </div>
+          <div class="ws-label" style="justify-content:center;"><span class="ws-dot" style="background:var(--green);"></span>bestel.vegro.nl + locatie.vegro.nl</div>
+
+          <!-- Monitor: werkenbijvegro -->
+          <div class="ws-monitor">
+            <div class="ws-screen-wrap">
+              <div class="ws-screen" style="padding:0;overflow:hidden;">
+                <img src="images/werkenbijvegro.nl.png" alt="werkenbijvegro.nl" style="width:100%;height:100%;object-fit:cover;object-position:top;display:block;">
+              </div>
+            </div>
+            <div class="ws-stand"></div><div class="ws-base"></div><div class="ws-shadow"></div>
+            <div class="ws-label"><span class="ws-dot" style="background:var(--green);"></span>werkenbijvegro.nl</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="wave-bottom"><svg viewBox="0 0 1440 70" preserveAspectRatio="none" fill="#fff"><path d="M0,20 C480,70 900,10 1440,50 L1440,70 L0,70 Z"/></svg></div>
+</section>
+
+<!-- VEGRO.NL STATS -->
+<section id="stats-section" class="parallax-section">
+  <div class="parallax-bg" style="background:#fff;"></div>
+  <div class="section-content">
+    <div class="section-inner">
+      <div class="reveal"><div class="section-label">&#128202; Platform Impact</div><h2 class="section-title">Vegro.nl</h2><p class="section-desc">Why availability of this platform is business-critical.</p></div>
+      <div class="stats-layout">
+        <div class="monitor-wrap reveal-l">
+          <div class="monitor">
+            <div class="monitor-screen" style="padding:0;overflow:hidden;">
+              <img src="images/vegro.nl.png" alt="vegro.nl" style="width:100%;height:100%;object-fit:cover;object-position:top;display:block;">
+            </div>
+          </div>
+          <div class="monitor-stand"></div>
+          <div class="monitor-base"></div>
+        </div>
+        <div class="stats-right">
+          <div class="stat-pill reveal d1"><span class="icon">&#128722;</span><div><div class="num">B2C <span>site</span></div><div class="lbl">Direct customer-facing e-commerce platform</div></div></div>
+          <div class="stat-pill reveal d2"><span class="icon">&#128101;</span><div><div class="num"><span class="counter" data-target="6000">0</span> <span>visitors</span></div><div class="lbl">Per day &mdash; every single day</div></div></div>
+          <div class="stat-pill reveal d3"><span class="icon">&#128200;</span><div><div class="num">17% <span>&amp; rising</span></div><div class="lbl">% of revenue via Lend &mdash; fastest growing channel</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="wave-bottom"><svg viewBox="0 0 1440 70" preserveAspectRatio="none" fill="var(--bg-light)"><path d="M0,45 C400,5 900,65 1440,20 L1440,70 L0,70 Z"/></svg></div>
+</section>
+
+<!-- CPU ATTACK -->
+<section id="attack" class="parallax-section">
+  <div class="parallax-bg" style="background:#0a0505;"></div>
+  <div class="attack-ip-bg" id="attackIpBg"></div>
+  <div class="attack-vignette"></div>
+  <div class="attack-scan"></div>
+  <div class="section-content">
+    <div class="attack-alert-bar"><span class="attack-blink">&#9888;</span>&nbsp; CRITICAL ALERT &mdash; DDoS ATTACK IN PROGRESS &mdash; SYSTEM DEGRADED &nbsp;<span class="attack-blink">&#9888;</span></div>
+    <div class="section-inner" style="padding-top:3.5rem;">
+      <div class="attack-header reveal">
+        <div class="section-label">&#9888; Incident</div>
+        <h2 class="section-title glitch">CPU Peeks at <em>80%</em> locks website</h2>
+        <p class="section-desc">DDoS Waves with peaks of 7.000 requests per minute</p>
+      </div>
+      <div class="cpu-chart-wrap danger reveal d2">
+        <div class="cpu-chart-header">
+          <h4>Server CPU usage over time &mdash; Vegro.nl</h4>
+          <div class="cpu-legend">
+            <div class="legend-item"><span class="legend-dot ld-blue"></span>Normal traffic</div>
+            <div class="legend-item"><span class="legend-dot ld-orange"></span>BotNet traffic</div>
+          </div>
+        </div>
+        <div class="cpu-canvas-wrap" id="cpuChart"></div>
+        <div class="attack-badge">&#128308; BotNet peak: CPU 100% &mdash; website no longer reachable for customers</div>
+      </div>
+      <div class="attack-consequences">
+        <div class="consequence reveal d3"><span class="icn">&#128187;</span><h4>Website locked</h4><p>CPU spikes to 100%, processes hang &mdash; the webshop is no longer responding for real visitors.</p></div>
+        <div class="consequence reveal d4"><span class="icn">&#128222;</span><h4>Customer service overloaded</h4><p>Incoming calls surge as customers can no longer place orders through the website.</p></div>
+        <div class="consequence reveal d5"><span class="icn">&#128680;</span><h4>Priority 1 activated</h4><p>Highest urgency. All available IT capacity mobilised &mdash; internal and external.</p></div>
+      </div>
+    </div>
+  </div>
+  <div class="wave-bottom"><svg viewBox="0 0 1440 70" preserveAspectRatio="none" fill="#fff"><path d="M0,25 C360,70 1000,5 1440,45 L1440,70 L0,70 Z"/></svg></div>
+</section>
+
+<!-- STEPS -->
+<section id="steps" class="parallax-section">
+  <div class="parallax-bg" style="background:#fff;"></div>
+  <div class="section-content">
+    <div class="section-inner">
+      <div class="reveal"><div class="section-label">&#128295; Incident Response</div><h2 class="section-title">Steps to reduce downtime</h2><p class="section-desc">First actions taken once it became clear we were under attack.</p></div>
+      <div class="steps-grid">
+        <div class="step-card c1 reveal d1"><span class="step-num-big">01</span><div class="step-content"><span class="step-icon">&#128260;</span><h3>Restart server</h3><p>Immediately restart to terminate long-running processes and temporarily reset CPU usage.</p><div class="step-result">&#10003; Brief relief &mdash; no structural fix</div></div><img class="step-img" src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&q=80" alt=""></div>
+        <div class="step-card c2 reveal d2"><span class="step-num-big">02</span><div class="step-content"><span class="step-icon">&#128269;</span><h3>Where is the traffic coming from?</h3><p>Analysis of the abnormal traffic. Mapping IP ranges, countries and patterns to identify the source.</p><div class="step-result">&#8594; Massive traffic from China identified</div></div><img class="step-img" src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&q=80" alt=""></div>
+        <div class="step-card c3 reveal d3"><span class="step-num-big">03</span><div class="step-content"><span class="step-icon">&#128683;</span><h3>Plan to block incoming traffic</h3><p>Draw up a blocking plan, but internally the Azure DDoS / WAF expertise is lacking to implement this quickly and safely.</p><div class="step-result">&#9889; External expertise needed &rarr; Call 911!</div></div><img class="step-img" src="https://images.unsplash.com/photo-1563986768609-322da13575f3?w=800&q=80" alt=""></div>
+      </div>
+    </div>
+  </div>
+  <div class="wave-bottom"><svg viewBox="0 0 1440 70" preserveAspectRatio="none" fill="var(--bg-lighter)"><path d="M0,50 C480,10 960,70 1440,30 L1440,70 L0,70 Z"/></svg></div>
+</section>
+
+<!-- CALL 911 -->
+<section id="call911" class="parallax-section">
+  <div class="parallax-bg" style="background:var(--bg-lighter);"></div>
+  <div class="section-content">
+    <div class="section-inner">
+      <div class="reveal"><div class="section-label">&#128222; External help</div><h2 class="section-title">Call 911!</h2><p class="section-desc">Internally, Azure WAF expertise was lacking. Decision: immediately bring in external security specialists.</p></div>
+      <div class="ct-wrap">
+        <div class="chat-feed">
+          <div class="chat-feed-inner">
+            <div class="chat-msg cm-vegro">
+              <img class="chat-av" src="images/logo-vegro.png" alt="Vegro">
+              <div class="chat-bubble-wrap"><div class="chat-sender">Vegro</div><div class="chat-bubble">Asker, we are under a massive bot attack &mdash; please help!</div></div>
+            </div>
+            <div class="chat-msg cm-asker">
+              <img class="chat-av" src="images/logo asker.jpg" alt="Asker">
+              <div class="chat-bubble-wrap"><div class="chat-sender">Asker</div><div class="chat-bubble">Sure, we will help &mdash; what&rsquo;s the problem?</div></div>
+            </div>
+            <div class="chat-msg cm-vegro">
+              <img class="chat-av" src="images/logo-vegro.png" alt="Vegro">
+              <div class="chat-bubble-wrap"><div class="chat-sender">Vegro</div><div class="chat-bubble">It&rsquo;s a DDoS or bot attack &mdash; our server is completely overloaded.</div></div>
+            </div>
+            <div class="chat-msg cm-asker">
+              <img class="chat-av" src="images/logo asker.jpg" alt="Asker">
+              <div class="chat-bubble-wrap"><div class="chat-sender">Asker</div><div class="chat-bubble">Understood! We will make some calls!!</div></div>
+            </div>
+            <div class="chat-msg cm-asker">
+              <img class="chat-av" src="images/logo asker.jpg" alt="Asker">
+              <div class="chat-bubble-wrap"><div class="chat-sender">Asker</div><div class="chat-bubble">We will connect you with Sciber &mdash; Azure WAF specialists.</div></div>
+            </div>
+            <div class="chat-msg cm-sciber">
+              <img class="chat-av" src="images/sciber.png" alt="Sciber">
+              <div class="chat-bubble-wrap"><div class="chat-sender">Sciber</div><div class="chat-bubble">Hi, how can we help?</div></div>
+            </div>
+            <div class="chat-msg cm-vegro">
+              <img class="chat-av" src="images/logo-vegro.png" alt="Vegro">
+              <div class="chat-bubble-wrap"><div class="chat-sender">Vegro</div><div class="chat-bubble">We are under attack from China &mdash; how can we block this traffic?</div></div>
+            </div>
+            <div class="chat-msg cm-sciber">
+              <img class="chat-av" src="images/sciber.png" alt="Sciber">
+              <div class="chat-bubble-wrap"><div class="chat-sender">Sciber</div><div class="chat-bubble">Let us help you set up the WAF and geo-blocking right away!</div></div>
+            </div>
+            <div class="chat-msg cm-vegro">
+              <img class="chat-av" src="images/logo-vegro.png" alt="Vegro">
+              <div class="chat-bubble-wrap"><div class="chat-sender">Vegro</div><div class="chat-bubble">That works great! Thanks for your help! &#127881;</div></div>
+            </div>
+            <div class="chat-msg cm-sciber">
+              <img class="chat-av" src="images/sciber.png" alt="Sciber">
+              <div class="chat-bubble-wrap"><div class="chat-sender">Sciber</div><div class="chat-bubble">No problem &mdash; glad to help! &#128737;</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="wave-bottom"><svg viewBox="0 0 1440 70" preserveAspectRatio="none" fill="#fff"><path d="M0,35 C300,70 1100,5 1440,40 L1440,70 L0,70 Z"/></svg></div>
+</section>
+
+<!-- SOLUTION -->
+<section id="solution" class="parallax-section">
+  <div class="parallax-bg" style="background:#fff;"></div>
+  <div class="section-content">
+    <div class="section-inner">
+      <div class="reveal"><div class="section-label">&#9989; Implemented solution</div><h2 class="section-title">Solution implemented<br>with Sciber</h2><p class="section-desc">Three combined measures neutralised the attack and restored accessibility.</p></div>
+      <div class="solution-layout">
+        <div class="sol-steps">
+          <div class="sol-step reveal d1"><div class="sol-icon-box">&#128256;</div><div><h4>Setup an Application Gateway</h4><p>Azure Application Gateway configured as central traffic management. Intelligently distributes requests and absorbs volumetric attack spikes.</p></div></div>
+          <div class="sol-step reveal d2"><div class="sol-icon-box">&#128737;</div><div><h4>Setup Web Application Firewall (WAF)</h4><p>OWASP ruleset activated. Detects and blocks bot traffic, scrapers and known attack patterns at application level.</p></div></div>
+          <div class="sol-step reveal d3"><div class="sol-icon-box">&#127758;</div><div><h4>Block all traffic from China</h4><p>Geo-blocking at gateway level. All connections from China blocked &mdash; immediate CPU relief and end of the attack.</p></div></div>
+        </div>
+        <div class="arch-box reveal-r">
+          <h4>// Traffic flow &mdash; after fix</h4>
+          <div class="arch-flow">
+            <div class="anode anode-bad">&#129302; BotNet (China)</div>
+            <div class="arch-arr">&#8595;</div>
+            <div class="anode anode-waf">&#128737; WAF + Geo-blocking</div>
+            <div class="arch-block-line">&#10006; BLOCKED</div>
+            <div class="anode anode-block" style="width:80%;">Bot requests rejected</div>
+            <div style="height:1.5rem;"></div>
+            <div class="anode" style="background:rgba(0,86,149,.06);border:1px solid rgba(0,86,149,.12);color:var(--text-muted);">&#128100; Legitimate traffic</div>
+            <div class="arch-arr">&#8595;</div>
+            <div class="anode anode-waf">&#128737; WAF &mdash; Approved</div>
+            <div class="arch-arr">&#8595;</div>
+            <div class="anode anode-gw">&#128256; Application Gateway</div>
+            <div class="arch-arr">&#8595;</div>
+            <div class="anode anode-app">&#9989; Vegro.nl &mdash; Online</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="wave-bottom"><svg viewBox="0 0 1440 70" preserveAspectRatio="none" fill="var(--bg-light)"><path d="M0,20 C360,70 1000,10 1440,55 L1440,70 L0,70 Z"/></svg></div>
+</section>
+
+<!-- FOLLOW UP -->
+<section id="followup" class="parallax-section">
+  <div class="parallax-bg" style="background:var(--bg-light);"></div>
+  <div class="section-content">
+    <div class="section-inner">
+      <div class="reveal"><div class="section-label">&#128200; Next steps</div><h2 class="section-title">Follow Up Steps</h2><p class="section-desc">Structural measures to detect and stop future attacks early.</p></div>
+      <div class="fu-grid">
+        <div class="fu-card reveal d1"><span class="ficn">&#128683;</span><h3>Block other suspicious traffic</h3><p>Analysis and blocking of other suspicious IP ranges and traffic patterns identified during the incident.</p><span class="fu-status fs-done">&#10003; In progress</span><img class="step-img" src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&q=80" alt=""></div>
+        <div class="fu-card reveal d2"><span class="ficn">&#128256;</span><h3>Set up Application Gateway for all Vegro websites</h3><p>Roll out the Application Gateway to all Vegro platforms for a uniform and structural level of protection.</p><span class="fu-status fs-wip">&#9203; Planned</span><img class="step-img" src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&q=80" alt=""></div>
+        <div class="fu-card reveal d3"><span class="ficn">&#128225;</span><h3>Build monitoring for Early Recognition of attacks</h3><p>Real-time monitoring system that detects anomalous traffic, CPU spikes and bot patterns early and triggers alerts.</p><span class="fu-status fs-plan">&#9711; Backlog</span><img class="step-img" src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=800&q=80" alt=""></div>
+      </div>
+    </div>
+  </div>
+  <div class="wave-bottom"><svg viewBox="0 0 1440 70" preserveAspectRatio="none" fill="#fff"><path d="M0,50 C480,10 960,70 1440,25 L1440,70 L0,70 Z"/></svg></div>
+</section>
+
+<!-- THANKS -->
+<section id="thanks" class="parallax-section">
+  <div class="parallax-bg" style="background: linear-gradient(rgba(2,13,26,.45), rgba(2,13,26,.45)), url('images/Ria en Tessa Winter_1.webp') center/cover no-repeat;"></div>
+  <div class="thanks-overlay"></div>
+  <div class="section-content">
+    <div class="thanks-inner">
+      <div class="reveal">
+        <div class="section-label" style="justify-content:center;color:rgba(255,255,255,.5);">&#127942; Acknowledgements</div>
+        <h1 class="thanks-title">Special thanks to:</h1>
+        <p class="thanks-sub">This incident could not have been resolved without the swift collaboration of these people.</p>
+      </div>
+      <div class="thanks-circles">
+        <div class="thanks-circle reveal d1">
+          <img class="thanks-circ-img" src="images/logo asker.jpg" alt="Asker">
+          <div class="thanks-circ-name">Daniel Mans&eacute;n</div>
+          <div class="thanks-circ-org">Asker</div>
+          <div class="thanks-circ-role">Head of IT Security</div>
+        </div>
+        <div class="thanks-circle reveal d2">
+          <img class="thanks-circ-img" src="images/sciber.png" alt="Sciber">
+          <div class="thanks-circ-name">Andreas Jacobi</div>
+          <div class="thanks-circ-org">Sciber</div>
+          <div class="thanks-circ-role"></div>
+        </div>
+        <div class="thanks-circle reveal d3">
+          <img class="thanks-circ-img" src="images/logo-vegro.png" alt="Vegro" style="object-fit:contain;">
+          <div class="thanks-circ-name">Vegro IT Team</div>
+          <div class="thanks-circ-org">Vegro</div>
+          <div class="thanks-circ-role">Technical Support and Coordination</div>
+        </div>
+      </div>
+      <div class="resolved-banner reveal d3">
+        <span class="res-icon">&#127807;</span>
+        <div class="res-text"><h4>Vegro.nl &mdash; Online &amp; Protected</h4><p>Incident closed. WAF + Application Gateway active. Monitoring being set up.</p></div>
+      </div>
+    </div>
+  </div>
+  <div class="vegro-logo-hero reveal">
+    <img src="images/logo.png" alt="Vegro" style="height:52px;width:auto;filter:drop-shadow(0 2px 8px rgba(0,0,0,.5));" />
+  </div>
+  <div class="reveal" style="position:absolute;bottom:8rem;left:3rem;z-index:4;">
+    <div style="font-size:clamp(2rem,3vw,2.8rem);font-weight:700;color:#fff;line-height:1.2;">Marcel de Groot</div>
+    <div style="font-size:clamp(1.5rem,2vw,2rem);color:rgba(255,255,255,.5);margin-top:.2rem;">Lead Software Engineer</div>
+    <div style="font-size:clamp(1rem,1.3vw,1.4rem);color:rgba(255,255,255,.35);margin-top:.3rem;">m.degroot@vegro.nl</div>
+  </div>
+</section>
+
+
+
+<script>
+
+const bgs = document.querySelectorAll('.parallax-bg');
+function updateParallax() {
+  bgs.forEach(bg => {
+    const sec = bg.closest('section');
+    if (!sec) return;
+    const t = -sec.getBoundingClientRect().top / innerHeight;
+    bg.style.transform = 'translateY(' + (t * 30) + 'px)';
+  });
+}
+document.body.addEventListener('scroll', updateParallax, { passive: true });
+updateParallax();
+
+const sectionList = Array.from(document.querySelectorAll('section'));
+
+const revObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting && !isScrolling) e.target.classList.add('visible'); });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal,.reveal-l,.reveal-r').forEach(el => revObs.observe(el));
+
+function animCounter(el) {
+  const target = parseInt(el.dataset.target);
+  const step = target / (1800 / 16);
+  let cur = 0;
+  const t = setInterval(() => {
+    cur = Math.min(cur + step, target);
+    el.textContent = Math.floor(cur).toLocaleString('nl-NL');
+    if (cur >= target) clearInterval(t);
+  }, 16);
+}
+const cntObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting && !e.target._done) {
+      e.target._done = true;
+      animCounter(e.target);
+    }
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('.counter').forEach(c => cntObs.observe(c));
+
+function buildCpuChart() {
+  const container = document.getElementById('cpuChart');
+  if (!container) return;
+  const maxH = 130;
+  const totalBars = 72;
+  let intervalId = null;
+  let attackLevel = 0;
+  // Phase tracking: 'normal' (pure blue) → 'peak5' (5x100%) → 'dip' (1x20%) → 'locked' (100% forever)
+  let phase = 'normal';
+  let peakCount = 0;
+  let normalCount = 0;
+
+  function makeBarData(intensity) {
+    const base = 14 + Math.random() * 18;
+    const orange = intensity > 0.04
+      ? intensity * (28 + Math.random() * 52)
+      : Math.random() < 0.12 ? Math.random() * 5 : Math.random() * 1.5;
+    const capped = Math.min(base + orange, 100);
+    const o = Math.min(orange, capped);
+    return { o, b: capped - o };
+  }
+
+  function fullBar()  { return { o: 82 + Math.random() * 18, b: 0 }; }   // ~100% orange
+  function dipBar()   { return { o: 0, b: 18 + Math.random() * 4 }; }     // ~20% blue only
+
+  function makeBarEl(data, instant) {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:1px;min-width:0;overflow:visible;';
+    const obDiv = document.createElement('div');
+    const blDiv = document.createElement('div');
+    const oH = (data.o / 100 * maxH).toFixed(1);
+    const bH = (data.b / 100 * maxH).toFixed(1);
+    if (instant) {
+      obDiv.style.cssText = `width:100%;background:#e56a54;border-radius:2px 2px 0 0;height:${oH}px;`;
+      blDiv.style.cssText = `width:100%;background:#3a87cc;height:${bH}px;${data.o < 0.5 ? 'border-radius:2px 2px 0 0;' : ''}`;
+    } else {
+      obDiv.style.cssText = `width:100%;background:#e56a54;border-radius:2px 2px 0 0;height:0;transition:height .22s ease-out;`;
+      blDiv.style.cssText = `width:100%;background:#3a87cc;height:0;${data.o < 0.5 ? 'border-radius:2px 2px 0 0;' : ''}transition:height .22s ease-out;`;
+      obDiv.dataset.h = oH;
+      blDiv.dataset.h = bH;
+    }
+    wrap.appendChild(obDiv);
+    wrap.appendChild(blDiv);
+    return wrap;
+  }
+
+  function buildInitial() {
+    container.innerHTML = '';
+    attackLevel = 0;
+    phase = 'normal';
+    peakCount = 0;
+    normalCount = 0;
+    for (let i = 0; i < totalBars; i++) {
+      container.appendChild(makeBarEl(makeBarData(0), true));
+    }
+  }
+
+  function tick() {
+    let data;
+    if (phase === 'normal') {
+      normalCount++;
+      data = makeBarData(0);
+      if (normalCount >= 40) { phase = 'peak5'; peakCount = 0; }
+    } else if (phase === 'peak5') {
+      data = fullBar();
+      peakCount++;
+      if (peakCount >= 5) phase = 'dip';
+    } else if (phase === 'dip') {
+      data = dipBar();
+      phase = 'locked';
+    } else {
+      // locked — 100% forever
+      data = fullBar();
+    }
+
+    const newBar = makeBarEl(data, false);
+    container.appendChild(newBar);
+    if (container.children.length > totalBars) container.removeChild(container.firstChild);
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      newBar.querySelectorAll('[data-h]').forEach(el => { el.style.height = el.dataset.h + 'px'; });
+    }));
+  }
+
+  buildInitial();
+
+  container._startChart = function() {
+    if (intervalId) return;
+    buildInitial();
+    intervalId = setInterval(tick, 175);
+  };
+  container._stopChart = function() {
+    if (intervalId) { clearInterval(intervalId); intervalId = null; }
+  };
+
+  const chartObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) container._startChart();
+      else container._stopChart();
+    });
+  }, { threshold: 0.2 });
+  chartObs.observe(container);
+}
+buildCpuChart();
+
+// Build floating IP rain for attack slide
+(function buildAttackIPs() {
+  const container = document.getElementById('attackIpBg');
+  if (!container) return;
+  function rnd(a,b){return Math.floor(Math.random()*(b-a+1))+a;}
+  for (let i = 0; i < 32; i++) {
+    const ip = `${rnd(1,254)}.${rnd(0,255)}.${rnd(0,255)}.${rnd(1,254)}`;
+    const el = document.createElement('span');
+    el.className = 'attack-ip';
+    el.textContent = ip + (Math.random() > .6 ? ' &#9658; ' + rnd(1024,65535) : '');
+    el.style.left = (Math.random() * 96) + '%';
+    el.style.top  = (Math.random() * 110) + '%';
+    el.style.animationDuration  = (7 + Math.random() * 11) + 's';
+    el.style.animationDelay = '-' + (Math.random() * 12) + 's';
+    container.appendChild(el);
+  }
+})();
+
+// Init slide dots
+const _dotsEl = document.getElementById('slideDots');
+sectionList.forEach((s, i) => {
+  const d = document.createElement('div');
+  d.className = 'slide-dot' + (i === 0 ? ' active' : '');
+  d.title = s.id;
+  d.addEventListener('click', () => goTo(i));
+  _dotsEl.appendChild(d);
+});
+const _ctr = document.getElementById('slideCounter');
+if (_ctr) _ctr.textContent = '1 / ' + sectionList.length;
+
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const t = document.querySelector(a.getAttribute('href'));
+    if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+  });
+});
+
+let isScrolling = false;
+function getCurrentIdx() {
+  const mid = innerHeight / 2;
+  let best = 0, bestDist = Infinity;
+  sectionList.forEach((s, i) => {
+    const r = s.getBoundingClientRect();
+    const d = Math.abs(r.top + r.height / 2 - mid);
+    if (d < bestDist) { bestDist = d; best = i; }
+  });
+  return best;
+}
+function resetAnimations(sec) {
+  sec.querySelectorAll('.reveal,.reveal-l,.reveal-r').forEach(el => el.classList.remove('visible'));
+  sec.querySelectorAll('.counter').forEach(el => { el.textContent = '0'; el._done = false; });
+  const chart = sec.querySelector('#cpuChart');
+  if (chart && chart._stopChart) chart._stopChart();
+  if (sec._chatInterval) { clearInterval(sec._chatInterval); sec._chatInterval = null; }
+  const chatFeed = sec.querySelector('.chat-feed');
+  if (chatFeed) chatFeed.scrollTop = 0;
+  sec.querySelectorAll('.chat-msg').forEach(el => el.classList.remove('cm-in', 'cm-out'));
+}
+function playAnimations(sec) {
+  sec.querySelectorAll('.reveal,.reveal-l,.reveal-r').forEach((el, i) => {
+    setTimeout(() => el.classList.add('visible'), i * 80);
+  });
+  if (sec.id === 'call911') {
+    const msgs = Array.from(sec.querySelectorAll('.chat-msg'));
+    const MAX_VISIBLE = 5;
+    let step = 0;
+    function showNextMsg() {
+      if (step >= msgs.length) { clearInterval(sec._chatInterval); sec._chatInterval = null; return; }
+      msgs[step].classList.add('cm-in');
+      if (step >= MAX_VISIBLE) msgs[step - MAX_VISIBLE].classList.add('cm-out');
+      step++;
+    }
+    showNextMsg();
+    sec._chatInterval = setInterval(showNextMsg, 1800);
+  }
+  sec.querySelectorAll('.counter').forEach(el => {
+    if (!el._done) { el._done = true; setTimeout(() => animCounter(el), 300); }
+  });
+  if (sec.querySelector('#cpuChart')) {
+    const chart = sec.querySelector('#cpuChart');
+    setTimeout(() => { if (chart._startChart) chart._startChart(); }, 400);
+  }
+}
+function goTo(idx) {
+  if (idx < 0 || idx >= sectionList.length || isScrolling) return;
+  isScrolling = true;
+  const prevIdx = getCurrentIdx();
+  const target = sectionList[idx];
+  // Reset previous slide (it will scroll off-screen, so no rewind visible)
+  if (prevIdx !== idx) resetAnimations(sectionList[prevIdx]);
+  // Reset target with transitions disabled so elements snap to hidden state instantly
+  target.classList.add('anim-reset');
+  resetAnimations(target);
+  requestAnimationFrame(() => requestAnimationFrame(() => target.classList.remove('anim-reset')));
+  target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  document.querySelectorAll('.slide-dot').forEach((d, i) => d.classList.toggle('active', i === idx));
+  const counter = document.getElementById('slideCounter');
+  if (counter) counter.textContent = (idx + 1) + ' / ' + sectionList.length;
+  setTimeout(() => { playAnimations(target); isScrolling = false; }, 700);
+}
+document.addEventListener('keydown', e => {
+  if (['PageDown','ArrowDown',' '].includes(e.key)) { e.preventDefault(); goTo(getCurrentIdx() + 1); }
+  if (['PageUp', 'ArrowUp'].includes(e.key))            { e.preventDefault(); goTo(getCurrentIdx() - 1); }
+  if (e.key === 'ArrowRight') { e.preventDefault(); goTo(getCurrentIdx() + 1); }
+  if (e.key === 'ArrowLeft')  { e.preventDefault(); goTo(getCurrentIdx() - 1); }
+});
+window.addEventListener('wheel', e => {
+  e.preventDefault();
+  if (!isScrolling) {
+    if (e.deltaY >  5) goTo(getCurrentIdx() + 1);
+    else if (e.deltaY < -5) goTo(getCurrentIdx() - 1);
+  }
+}, { passive: false });
+let _touchY = 0;
+document.addEventListener('touchstart', e => { _touchY = e.touches[0].clientY; }, { passive: true });
+document.addEventListener('touchend', e => {
+  const diff = _touchY - e.changedTouches[0].clientY;
+  if (Math.abs(diff) > 50) { if (diff > 0) goTo(getCurrentIdx() + 1); else goTo(getCurrentIdx() - 1); }
+}, { passive: true });
+</script>
+</body>
+</html>
