@@ -432,4 +432,21 @@
     @media(max-width:600px) {
       .team-grid,.agenda-grid,.sites-grid,.steps-grid,.fu-grid,.attack-consequences{grid-template-columns:1fr}
     }
+
+    /* ── Preloader ── */
+    #preloader {
+      position: fixed; inset: 0; z-index: 9999;
+      background: #020d1a;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 2rem;
+      transition: opacity .6s ease, visibility .6s ease;
+    }
+    #preloader.hidden { opacity: 0; visibility: hidden; }
+    .pre-logo { display: flex; align-items: center; gap: .75rem; }
+    .pre-logo img { height: 48px; width: auto; filter: brightness(0) invert(1); }
+    .pre-logo-text { font-size: 1.6rem; font-weight: 800; color: #fff; letter-spacing: .5px; }
+    .pre-logo-text span { color: #7ec07b; }
+    .pre-bar-wrap { width: 260px; height: 4px; background: rgba(255,255,255,.12); border-radius: 4px; overflow: hidden; }
+    .pre-bar { height: 100%; width: 0%; background: linear-gradient(90deg, #005695, #7ec07b); border-radius: 4px; transition: width .25s ease; }
+    .pre-label { font-size: .75rem; font-weight: 600; color: rgba(255,255,255,.35); letter-spacing: 2px; text-transform: uppercase; }
   

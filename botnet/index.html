@@ -9,6 +9,16 @@
 </head>
 <body>
 
+<!-- PRELOADER -->
+<div id="preloader">
+  <div class="pre-logo">
+    <img src="images/logo.png" alt="Vegro" />
+    <div class="pre-logo-text">Vegro <span>BotNet</span></div>
+  </div>
+  <div class="pre-bar-wrap"><div class="pre-bar" id="preBar"></div></div>
+  <div class="pre-label" id="preLabel">Laden…</div>
+</div>
+
 
 
 <div class="slide-dots" id="slideDots"></div>
@@ -677,6 +687,49 @@ document.addEventListener('touchend', e => {
   const diff = _touchY - e.changedTouches[0].clientY;
   if (Math.abs(diff) > 50) { if (diff > 0) goTo(getCurrentIdx() + 1); else goTo(getCurrentIdx() - 1); }
 }, { passive: true });
+</script>
+
+<script>
+(function () {
+  const preloader = document.getElementById('preloader');
+  const bar = document.getElementById('preBar');
+  const label = document.getElementById('preLabel');
+
+  // Verzamel alle afbeeldingen
+  const imgs = Array.from(document.images);
+  const total = imgs.length || 1;
+  let loaded = 0;
+
+  function update() {
+    loaded++;
+    const pct = Math.round((loaded / total) * 100);
+    bar.style.width = pct + '%';
+    label.textContent = pct + '%';
+    if (loaded >= total) done();
+  }
+
+  function done() {
+    bar.style.width = '100%';
+    label.textContent = '100%';
+    setTimeout(() => preloader.classList.add('hidden'), 400);
+  }
+
+  if (imgs.length === 0) {
+    done();
+  } else {
+    imgs.forEach(img => {
+      if (img.complete) {
+        update();
+      } else {
+        img.addEventListener('load', update);
+        img.addEventListener('error', update);
+      }
+    });
+  }
+
+  // Fallback: verberg na maximaal 6 seconden
+  setTimeout(done, 6000);
+})();
 </script>
 </body>
 </html>
