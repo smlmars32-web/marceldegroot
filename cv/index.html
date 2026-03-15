@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Marcel de Groot — CV</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Great+Vibes&family=Special+Elite&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- PRELOADER -->
+<div id="preloader">
+  <div class="pre-inner">
+    <div class="pre-initials">MdG</div>
+    <div class="pre-name">Marcel de Groot</div>
+    <div class="pre-bar-wrap"><div class="pre-bar" id="preBar"></div></div>
+    <div class="pre-label" id="preLabel">Laden&hellip;</div>
+  </div>
+</div>
+
+<!-- DOT NAVIGATIE -->
+<div class="slide-dots" id="slideDots"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">Marcel <span>de Groot</span></div>
+  <div class="nav-counter" id="navCounter">01 / 07</div>
+</nav>
+
+<!-- Slides worden hier dynamisch ingeladen -->
+<div id="slides-container"></div>
+
+<!-- FOOTER 
+<footer>
+  <div class="footer-name">Marcel <span>de Groot</span></div>
+  <div class="footer-copy">&copy; 2026 &mdash; Lead Software Engineer</div>
+</footer>
+-->
+<script>
+// Voorkom dat browser de vorige scroll-positie terugzet
+history.scrollRestoration = 'manual';
+
+// ── Slide bestanden in volgorde ──
+const slideFiles = [
+  'slides/hero.html',
+  'slides/familie.html',
+  'slides/hobbies.html',
+  'slides/skills.html',
+  'slides/projecten.html',
+  'slides/visie.html',
+  'slides/contact.html',
+];
+
+async function loadSlides() {
+  const container = document.getElementById('slides-container');
+  for (const file of slideFiles) {
+    const res  = await fetch(file);
+    const html = await res.text();
+    container.insertAdjacentHTML('beforeend', html);
+  }
+  initApp();
+  // Altijd beginnen bij de eerste slide (hero)
+  document.body.scrollTop = 0;
+}
+
+function initApp() {
+  // ── Secties ──
+  const sections = Array.from(document.querySelectorAll('.slide, footer'));
+
+  function getCurrentIdx() {
+    let best = 0, bestDist = Infinity;
+    sections.forEach((s, i) => {
+      const dist = Math.abs(s.getBoundingClientRect().top);
+      if (dist < bestDist) { bestDist = dist; best = i; }
+    });
+    return best;
+  }
+
+  function goTo(idx) {
+    idx = Math.max(0, Math.min(sections.length - 1, idx));
+    sections[idx].scrollIntoView({ behavior: 'smooth' });
+    changeSlide(idx);
+  }
+
+  // ── Toetsenbord ──
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowDown' || e.key === 'PageDown') { e.preventDefault(); goTo(getCurrentIdx() + 1); }
+    if (e.key === 'ArrowUp'   || e.key === 'PageUp'  ) { e.preventDefault(); goTo(getCurrentIdx() - 1); }
+  });
+
+  // ── Dot navigatie ──
+  const dotsWrap = document.getElementById('slideDots');
+  sections.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'slide-dot';
+    d.addEventListener('click', () => goTo(i));
+    dotsWrap.appendChild(d);
+  });
+
+  const mainNav = document.querySelector('nav');
+
+  function activateSlide(el) {
+    if (!el) return;
+    el.classList.remove('skills-active', 'hob-active', 'ct-active');
+    void el.offsetWidth;
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      if (el.id === 'skills')  el.classList.add('skills-active');
+      if (el.id === 'hobbies') el.classList.add('hob-active');
+      if (el.id === 'contact') el.classList.add('ct-active');
+      el.querySelectorAll('.reveal, .reveal-l, .reveal-r').forEach(r => r.classList.add('visible'));
+    }));
+  }
+
+  let _lastIdx = -1;
+  function changeSlide(idx) {
+    if (idx === _lastIdx) return;
+    const prev = sections[_lastIdx];
+    if (prev) {
+      prev.classList.remove('skills-active', 'hob-active', 'ct-active');
+      prev.querySelectorAll('.reveal, .reveal-l, .reveal-r').forEach(r => r.classList.remove('visible'));
+    }
+    activateSlide(sections[idx]);
+    _lastIdx = idx;
+  }
+
+  function updateDots() {
+    const idx = getCurrentIdx();
+    dotsWrap.querySelectorAll('.slide-dot').forEach((d, i) => d.classList.toggle('active', i === idx));
+    document.getElementById('navCounter').textContent =
+      String(idx + 1).padStart(2, '0') + ' / ' + String(sections.length).padStart(2, '0');
+    mainNav.classList.toggle('nav--hidden', sections[idx] && sections[idx].id === 'hero');
+    changeSlide(idx);
+  }
+  document.body.addEventListener('scroll', updateDots, { passive: true });
+  updateDots();
+
+  // ── Scrollwiel per slide ──
+  document.addEventListener('wheel', e => {
+    e.preventDefault();
+    if (e.deltaY > 5) goTo(getCurrentIdx() + 1);
+    else if (e.deltaY < -5) goTo(getCurrentIdx() - 1);
+  }, { passive: false });
+
+  // ── Touch swipe ──
+  let _touchY = 0;
+  document.addEventListener('touchstart', e => { _touchY = e.touches[0].clientY; }, { passive: true });
+  document.addEventListener('touchend', e => {
+    const diff = _touchY - e.changedTouches[0].clientY;
+    if (Math.abs(diff) > 50) { if (diff > 0) goTo(getCurrentIdx() + 1); else goTo(getCurrentIdx() - 1); }
+  }, { passive: true });
+
+  // ── Preloader ──
+  const preloader = document.getElementById('preloader');
+  const bar       = document.getElementById('preBar');
+  const label     = document.getElementById('preLabel');
+  const imgs      = Array.from(document.images);
+  const total     = imgs.length || 1;
+  let loaded = 0;
+
+  function update() {
+    loaded++;
+    const pct = Math.round((loaded / total) * 100);
+    bar.style.width = pct + '%';
+    label.textContent = pct + '%';
+    if (loaded >= total) done();
+  }
+
+  function done() {
+    bar.style.width = '100%';
+    label.textContent = '100%';
+    setTimeout(() => preloader.classList.add('hidden'), 500);
+  }
+
+  if (imgs.length === 0) {
+    done();
+  } else {
+    imgs.forEach(img => {
+      if (img.complete) update();
+      else {
+        img.addEventListener('load', update);
+        img.addEventListener('error', update);
+      }
+    });
+  }
+  setTimeout(done, 6000);
+
+  // ── Liquid water effect on contact buttons ──
+  const LENS_R = 40;  // helft van 80px lens
+  const ZOOM   = 2.4; // vergrotingsfactor
+
+  document.querySelectorAll('.ct-icon-btn').forEach(btn => {
+    let lastRipple = 0;
+    let lens = null;
+    let lensImg = null;
+    // Lens aan parent hangen zodat hij buiten de button-grenzen mag komen
+    const lensContainer = btn.closest('.ct-icons') || btn.parentElement;
+
+    btn.addEventListener('mouseenter', () => {
+      lens = document.createElement('span');
+      lens.className = 'water-lens';
+      const srcImg = btn.querySelector('img');
+      if (srcImg) {
+        lensImg = document.createElement('img');
+        lensImg.src = srcImg.src;
+        lensImg.className = 'water-lens-img';
+        lens.appendChild(lensImg);
+      }
+      lensContainer.appendChild(lens);
+    });
+
+    btn.addEventListener('mousemove', e => {
+      const btnRect       = btn.getBoundingClientRect();
+      const containerRect = lensContainer.getBoundingClientRect();
+      // lens positie relatief aan container
+      const lx = e.clientX - containerRect.left;
+      const ly = e.clientY - containerRect.top;
+      // cursorpositie relatief aan button (voor zoom-berekening)
+      const bx = e.clientX - btnRect.left;
+      const by = e.clientY - btnRect.top;
+      btn.style.setProperty('--mx', (bx / btnRect.width * 100) + '%');
+      btn.style.setProperty('--my', (by / btnRect.height * 100) + '%');
+      if (lens) {
+        lens.style.left = lx + 'px';
+        lens.style.top  = ly + 'px';
+        if (lensImg) {
+          lensImg.style.width  = (ZOOM * btnRect.width)  + 'px';
+          lensImg.style.height = (ZOOM * btnRect.height) + 'px';
+          lensImg.style.left   = (LENS_R - ZOOM * bx) + 'px';
+          lensImg.style.top    = (LENS_R - ZOOM * by) + 'px';
+        }
+      }
+      const now = Date.now();
+      if (now - lastRipple < 110) return;
+      lastRipple = now;
+      const r = document.createElement('span');
+      r.className = 'water-ripple';
+      r.style.left = bx + 'px';
+      r.style.top  = by + 'px';
+      btn.appendChild(r);
+      r.addEventListener('animationend', () => r.remove());
+    });
+
+    btn.addEventListener('mouseleave', () => {
+      btn.style.removeProperty('--mx');
+      btn.style.removeProperty('--my');
+      if (lens) { lens.remove(); lens = null; lensImg = null; }
+    });
+  });
+}
+
+loadSlides();
+</script>
+
+</body>
+</html>

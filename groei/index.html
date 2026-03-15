@@ -1,0 +1,1881 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VegroGroei — Versneld Verzuim · Vitaliteit · Out of the Box</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── RESET & BASE ─────────────────────────────────────────────── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #0d1b2a;
+      color: #1a2332;
+      overflow-x: hidden;
+    }
+
+    /* ─── DESIGN TOKENS ────────────────────────────────────────────── */
+    :root {
+      --green:      #00c97a;
+      --green-dark: #00955a;
+      --green-mid:  #00b86e;
+      --blue:       #0a6cff;
+      --blue-dark:  #0050cc;
+      --teal:       #00c2cb;
+      --orange:     #ff6b35;
+      --yellow:     #ffd166;
+      --white:      #ffffff;
+      --off-white:  #f4fbf8;
+      --dark:       #0d1b2a;
+      --dark-mid:   #112233;
+      --text-body:  #2c3e50;
+      --text-light: #5f7a8a;
+    }
+
+    /* ─── NAVIGATION ───────────────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 5%;
+      height: 72px;
+      background: rgba(13,27,42,0.82);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(0,201,122,0.15);
+      transition: all .35s ease;
+    }
+    nav.scrolled {
+      background: rgba(13,27,42,0.97);
+      height: 60px;
+      box-shadow: 0 4px 32px rgba(0,0,0,0.4);
+    }
+    .nav-logo {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--green);
+      letter-spacing: -0.5px;
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--white); }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      color: rgba(255,255,255,0.75);
+      text-decoration: none;
+      font-size: .875rem;
+      font-weight: 500;
+      letter-spacing: .3px;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--green); }
+    .nav-cta {
+      background: var(--green);
+      color: var(--dark) !important;
+      padding: .5rem 1.25rem;
+      border-radius: 50px;
+      font-weight: 700 !important;
+      transition: background .2s, transform .2s !important;
+    }
+    .nav-cta:hover { background: #00f094 !important; transform: translateY(-1px); }
+
+    /* ─── PARALLAX CORE ────────────────────────────────────────────── */
+    .parallax-section {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+    .parallax-bg {
+      position: absolute;
+      inset: -20%;
+      background-attachment: fixed;
+      background-size: cover;
+      background-position: center;
+      will-change: transform;
+      transition: transform .01s linear;
+    }
+    .overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+    }
+    .section-content {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+    }
+
+    /* ─── HERO ─────────────────────────────────────────────────────── */
+    #hero .parallax-bg {
+      background: linear-gradient(135deg, #051522 0%, #0d2a1a 40%, #091e3a 100%);
+    }
+    .hero-particles {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      animation: float-up linear infinite;
+      opacity: 0;
+    }
+    @keyframes float-up {
+      0%   { transform: translateY(100vh) scale(0);   opacity: 0; }
+      10%  { opacity: .6; }
+      90%  { opacity: .3; }
+      100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+    }
+
+    .hero-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 10rem 5% 6rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      background: rgba(0,201,122,.12);
+      border: 1px solid rgba(0,201,122,.3);
+      color: var(--green);
+      font-size: .8rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: .4rem 1rem;
+      border-radius: 50px;
+      margin-bottom: 1.5rem;
+    }
+    .hero-badge .dot {
+      width: 7px; height: 7px;
+      background: var(--green);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: .4; transform: scale(1.4); }
+    }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.8rem, 5vw, 4.5rem);
+      font-weight: 800;
+      line-height: 1.1;
+      color: var(--white);
+      margin-bottom: 1.5rem;
+    }
+    .hero-title .accent-green { color: var(--green); }
+    .hero-title .accent-teal  { color: var(--teal);  }
+
+    .hero-sub {
+      font-size: 1.15rem;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.7;
+      margin-bottom: 2.5rem;
+      max-width: 520px;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: .6rem;
+      background: var(--green);
+      color: var(--dark);
+      padding: .9rem 2rem;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 1rem;
+      text-decoration: none;
+      transition: all .25s;
+      box-shadow: 0 4px 24px rgba(0,201,122,.35);
+    }
+    .btn-primary:hover {
+      background: #00f094;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(0,201,122,.5);
+    }
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: .6rem;
+      border: 2px solid rgba(255,255,255,.25);
+      color: rgba(255,255,255,.85);
+      padding: .9rem 2rem;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 1rem;
+      text-decoration: none;
+      transition: all .25s;
+    }
+    .btn-ghost:hover {
+      border-color: var(--green);
+      color: var(--green);
+      transform: translateY(-2px);
+    }
+
+    /* Hero stats strip */
+    .hero-stats {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    .stat-card {
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 16px;
+      padding: 1.5rem;
+      backdrop-filter: blur(8px);
+      transition: transform .3s, border-color .3s;
+    }
+    .stat-card:hover {
+      transform: translateX(-6px);
+      border-color: rgba(0,201,122,.3);
+    }
+    .stat-number {
+      font-size: 2.4rem;
+      font-weight: 800;
+      color: var(--green);
+      line-height: 1;
+      margin-bottom: .3rem;
+    }
+    .stat-number .unit { font-size: 1.4rem; }
+    .stat-label {
+      font-size: .875rem;
+      color: rgba(255,255,255,.55);
+      line-height: 1.4;
+    }
+
+    /* Scroll indicator */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .5rem;
+      color: rgba(255,255,255,.35);
+      font-size: .75rem;
+      font-weight: 500;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+    .scroll-mouse {
+      width: 24px; height: 38px;
+      border: 2px solid rgba(255,255,255,.25);
+      border-radius: 12px;
+      display: flex;
+      justify-content: center;
+      padding-top: 6px;
+    }
+    .scroll-wheel {
+      width: 4px; height: 8px;
+      background: var(--green);
+      border-radius: 2px;
+      animation: scroll-scroll 2s infinite;
+    }
+    @keyframes scroll-scroll {
+      0%   { transform: translateY(0); opacity: 1; }
+      80%  { transform: translateY(12px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 0; }
+    }
+
+    /* ─── SECTION: PROBLEEM ────────────────────────────────────────── */
+    #probleem .parallax-bg {
+      background: linear-gradient(160deg, #f4fbf8 0%, #e8f8f0 50%, #eaf4ff 100%);
+    }
+    #probleem .overlay {
+      background: rgba(255,255,255,0.1);
+    }
+    .section-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 7rem 5%;
+    }
+    .section-label {
+      display: inline-block;
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--green-dark);
+      margin-bottom: 1rem;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--dark);
+      margin-bottom: 1.25rem;
+    }
+    .section-title .highlight {
+      color: var(--green-dark);
+      position: relative;
+    }
+    .section-title .highlight::after {
+      content: '';
+      position: absolute;
+      bottom: 2px; left: 0; right: 0;
+      height: 3px;
+      background: var(--green);
+      border-radius: 2px;
+    }
+    .section-desc {
+      font-size: 1.1rem;
+      color: var(--text-body);
+      line-height: 1.75;
+      max-width: 600px;
+      margin-bottom: 3rem;
+    }
+
+    .problem-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    .problem-card {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 4px 32px rgba(0,51,34,.07);
+      border-left: 4px solid transparent;
+      transition: all .3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .problem-card::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 80px; height: 80px;
+      border-radius: 0 0 0 80px;
+      opacity: .05;
+    }
+    .problem-card:nth-child(odd)  { border-left-color: var(--orange); }
+    .problem-card:nth-child(odd)::before  { background: var(--orange); }
+    .problem-card:nth-child(even) { border-left-color: var(--blue); }
+    .problem-card:nth-child(even)::before { background: var(--blue); }
+    .problem-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 48px rgba(0,51,34,.13);
+    }
+    .problem-icon {
+      font-size: 2.2rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+    .problem-card h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: .6rem;
+    }
+    .problem-card p {
+      font-size: .9rem;
+      color: var(--text-light);
+      line-height: 1.6;
+    }
+    .problem-stat {
+      display: inline-block;
+      margin-top: 1rem;
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--orange);
+    }
+
+    /* ─── SECTION: AANPAK / VITALITEIT ────────────────────────────── */
+    #vitaliteit {
+      background: var(--dark);
+    }
+    #vitaliteit .parallax-bg {
+      background: radial-gradient(ellipse at 20% 50%, rgba(0,201,122,.12) 0%, transparent 60%),
+                  radial-gradient(ellipse at 80% 20%, rgba(10,108,255,.1) 0%, transparent 50%),
+                  #0d1b2a;
+    }
+    #vitaliteit .section-title { color: var(--white); }
+    #vitaliteit .section-label { color: var(--teal); }
+    #vitaliteit .section-desc  { color: rgba(255,255,255,.6); }
+
+    .vitality-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+    .vitality-visual {
+      position: relative;
+    }
+    .vitality-circle {
+      width: 420px;
+      height: 420px;
+      border-radius: 50%;
+      background: conic-gradient(
+        var(--green) 0deg 90deg,
+        var(--teal)  90deg 180deg,
+        var(--blue)  180deg 270deg,
+        var(--green-dark) 270deg 360deg
+      );
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      animation: rotate-slow 30s linear infinite;
+      box-shadow: 0 0 80px rgba(0,201,122,.25);
+      margin: 0 auto;
+    }
+    @keyframes rotate-slow {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+    .vitality-circle-inner {
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      background: var(--dark-mid);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      animation: rotate-slow 30s linear infinite reverse;
+    }
+    .vitality-circle-inner .big-number {
+      font-size: 3.5rem;
+      font-weight: 900;
+      color: var(--green);
+      line-height: 1;
+    }
+    .vitality-circle-inner .big-label {
+      font-size: .85rem;
+      color: rgba(255,255,255,.5);
+      text-align: center;
+      max-width: 140px;
+      margin-top: .3rem;
+      line-height: 1.4;
+    }
+
+    .vitality-pillars {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    .pillar {
+      display: flex;
+      gap: 1.25rem;
+      align-items: flex-start;
+      padding: 1.5rem;
+      background: rgba(255,255,255,.04);
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.06);
+      transition: all .3s;
+      cursor: default;
+    }
+    .pillar:hover {
+      background: rgba(0,201,122,.08);
+      border-color: rgba(0,201,122,.2);
+      transform: translateX(6px);
+    }
+    .pillar-icon {
+      width: 48px; height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+    }
+    .pillar-icon.g { background: rgba(0,201,122,.15); }
+    .pillar-icon.b { background: rgba(10,108,255,.15); }
+    .pillar-icon.t { background: rgba(0,194,203,.15); }
+    .pillar-icon.o { background: rgba(255,107,53,.15); }
+    .pillar-text h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: .3rem;
+    }
+    .pillar-text p {
+      font-size: .875rem;
+      color: rgba(255,255,255,.5);
+      line-height: 1.5;
+    }
+    .pillar-bar {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      margin-top: .6rem;
+    }
+    .bar-track {
+      flex: 1;
+      height: 4px;
+      background: rgba(255,255,255,.08);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .bar-fill {
+      height: 100%;
+      border-radius: 2px;
+      background: var(--green);
+      width: 0;
+      transition: width 1.5s ease;
+    }
+    .bar-pct {
+      font-size: .75rem;
+      color: var(--green);
+      font-weight: 600;
+      min-width: 32px;
+    }
+
+    /* ─── SECTION: OUT OF THE BOX ──────────────────────────────────── */
+    #outofthebox .parallax-bg {
+      background: linear-gradient(135deg, #e6fff5 0%, #eaf5ff 40%, #fff8e6 100%);
+    }
+    #outofthebox .overlay {
+      background: rgba(255,255,255,.05);
+    }
+
+    .boxes-header {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 4rem;
+    }
+    .boxes-header .section-desc { margin: 0 auto; }
+
+    .ootb-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+    }
+    .ootb-card {
+      position: relative;
+      border-radius: 24px;
+      padding: 2.5rem;
+      overflow: hidden;
+      transition: all .35s cubic-bezier(.22,.61,.36,1);
+      cursor: default;
+    }
+    .ootb-card:hover {
+      transform: translateY(-8px) scale(1.01);
+    }
+    .ootb-card:nth-child(1) { background: linear-gradient(135deg, #00c97a, #00955a); color: #fff; }
+    .ootb-card:nth-child(2) { background: linear-gradient(135deg, #0a6cff, #0050cc); color: #fff; }
+    .ootb-card:nth-child(3) { background: linear-gradient(135deg, #ff6b35, #e85520); color: #fff; }
+    .ootb-card:nth-child(4) { background: linear-gradient(135deg, #00c2cb, #0096a0); color: #fff; }
+    .ootb-card .card-number {
+      font-size: 5rem;
+      font-weight: 900;
+      opacity: .12;
+      position: absolute;
+      top: -1rem;
+      right: 1.5rem;
+      line-height: 1;
+      pointer-events: none;
+    }
+    .ootb-card .card-icon {
+      font-size: 2.4rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+    .ootb-card h3 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin-bottom: .75rem;
+    }
+    .ootb-card p {
+      font-size: .95rem;
+      opacity: .85;
+      line-height: 1.65;
+    }
+    .ootb-card .card-tag {
+      display: inline-block;
+      margin-top: 1.25rem;
+      padding: .3rem .9rem;
+      background: rgba(255,255,255,.2);
+      border-radius: 50px;
+      font-size: .78rem;
+      font-weight: 600;
+      letter-spacing: .5px;
+    }
+
+    /* ─── SECTION: RESULTATEN ──────────────────────────────────────── */
+    #resultaten {
+      background: var(--dark);
+    }
+    #resultaten .parallax-bg {
+      background: radial-gradient(ellipse at 60% 40%, rgba(0,194,203,.1) 0%, transparent 55%),
+                  radial-gradient(ellipse at 10% 80%, rgba(0,201,122,.08) 0%, transparent 50%),
+                  #0d1b2a;
+    }
+    #resultaten .section-title { color: var(--white); }
+    #resultaten .section-label { color: var(--yellow); }
+
+    .results-layout {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 5rem;
+      align-items: start;
+    }
+    .results-counters {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    .counter-box {
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: 20px;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      transition: all .3s;
+    }
+    .counter-box:hover {
+      background: rgba(0,201,122,.07);
+      border-color: rgba(0,201,122,.2);
+      transform: scale(1.03);
+    }
+    .counter-box .counter-num {
+      font-size: 2.8rem;
+      font-weight: 900;
+      color: var(--green);
+      line-height: 1;
+      margin-bottom: .3rem;
+    }
+    .counter-box .counter-num .suffix { font-size: 1.6rem; }
+    .counter-box .counter-lbl {
+      font-size: .82rem;
+      color: rgba(255,255,255,.45);
+      line-height: 1.4;
+    }
+
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .timeline-item {
+      display: flex;
+      gap: 1.5rem;
+      position: relative;
+    }
+    .timeline-item:not(:last-child) .tl-line::after {
+      content: '';
+      position: absolute;
+      top: 40px;
+      left: 19px;
+      width: 2px;
+      height: calc(100% + 0px);
+      background: rgba(0,201,122,.2);
+    }
+    .tl-dot-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+    .tl-line { position: relative; padding-bottom: 2rem; }
+    .tl-dot {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: rgba(0,201,122,.15);
+      border: 2px solid var(--green);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+      z-index: 1;
+      position: relative;
+    }
+    .tl-body {
+      padding-bottom: 2.5rem;
+      flex: 1;
+    }
+    .tl-when {
+      font-size: .73rem;
+      font-weight: 700;
+      color: var(--green);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: .3rem;
+    }
+    .tl-body h4 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: .3rem;
+    }
+    .tl-body p {
+      font-size: .875rem;
+      color: rgba(255,255,255,.45);
+      line-height: 1.55;
+    }
+
+    /* ─── SECTION: TESTIMONIALS ────────────────────────────────────── */
+    #testimonials .parallax-bg {
+      background: linear-gradient(160deg, #f0fdf7 0%, #f5f8ff 60%, #fffcf0 100%);
+    }
+    .testimonials-header {
+      text-align: center;
+      max-width: 650px;
+      margin: 0 auto 4rem;
+    }
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    .testimonial-card {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 4px 28px rgba(0,40,20,.07);
+      transition: all .3s;
+      position: relative;
+    }
+    .testimonial-card::before {
+      content: '\201C';
+      position: absolute;
+      top: 1rem; right: 1.5rem;
+      font-size: 5rem;
+      color: var(--green);
+      opacity: .1;
+      font-family: serif;
+      line-height: 1;
+    }
+    .testimonial-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 40px rgba(0,40,20,.12);
+    }
+    .testimonial-stars {
+      color: var(--yellow);
+      font-size: 1rem;
+      margin-bottom: 1rem;
+    }
+    .testimonial-text {
+      font-size: .95rem;
+      color: var(--text-body);
+      line-height: 1.7;
+      font-style: italic;
+      margin-bottom: 1.5rem;
+    }
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+    }
+    .author-avatar {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #fff;
+      font-style: normal;
+      flex-shrink: 0;
+    }
+    .a1 { background: linear-gradient(135deg, var(--green), var(--teal)); }
+    .a2 { background: linear-gradient(135deg, var(--blue), var(--teal)); }
+    .a3 { background: linear-gradient(135deg, var(--orange), var(--yellow)); }
+    .author-info .name {
+      font-weight: 700;
+      font-size: .9rem;
+      color: var(--dark);
+    }
+    .author-info .role {
+      font-size: .78rem;
+      color: var(--text-light);
+    }
+    .result-tag {
+      display: inline-block;
+      margin-top: .75rem;
+      padding: .25rem .75rem;
+      background: rgba(0,201,122,.1);
+      color: var(--green-dark);
+      border-radius: 50px;
+      font-size: .75rem;
+      font-weight: 700;
+    }
+
+    /* ─── SECTION: CONTACT / CTA ───────────────────────────────────── */
+    #contact {
+      background: var(--dark);
+      position: relative;
+    }
+    #contact .parallax-bg {
+      background: radial-gradient(ellipse at 50% 0%, rgba(0,201,122,.18) 0%, transparent 60%),
+                  #0d1b2a;
+    }
+    .cta-inner {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 8rem 5%;
+      text-align: center;
+    }
+    .cta-inner .section-title {
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      color: var(--white);
+      margin-bottom: 1rem;
+    }
+    .cta-inner .section-desc {
+      color: rgba(255,255,255,.6);
+      margin: 0 auto 3rem;
+      max-width: 560px;
+    }
+    .contact-form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      text-align: left;
+      max-width: 640px;
+      margin: 0 auto;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: .4rem;
+    }
+    .form-group.full { grid-column: 1 / -1; }
+    .form-group label {
+      font-size: .8rem;
+      font-weight: 600;
+      color: rgba(255,255,255,.5);
+      letter-spacing: .5px;
+    }
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 10px;
+      padding: .85rem 1rem;
+      color: var(--white);
+      font-size: .95rem;
+      font-family: 'Inter', sans-serif;
+      outline: none;
+      transition: border-color .2s, background .2s;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      border-color: var(--green);
+      background: rgba(0,201,122,.06);
+    }
+    .form-group textarea { resize: vertical; min-height: 110px; }
+    .form-group select option { background: var(--dark-mid); }
+    .form-submit {
+      grid-column: 1 / -1;
+      display: flex;
+      justify-content: center;
+      margin-top: .5rem;
+    }
+    .btn-submit {
+      display: inline-flex;
+      align-items: center;
+      gap: .7rem;
+      background: var(--green);
+      color: var(--dark);
+      border: none;
+      padding: 1rem 2.5rem;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all .25s;
+      box-shadow: 0 4px 24px rgba(0,201,122,.35);
+    }
+    .btn-submit:hover {
+      background: #00f094;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(0,201,122,.5);
+    }
+
+    /* ─── FOOTER ───────────────────────────────────────────────────── */
+    footer {
+      background: #060f17;
+      border-top: 1px solid rgba(255,255,255,.06);
+      padding: 3rem 5%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-logo {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--green);
+      text-decoration: none;
+    }
+    .footer-logo span { color: rgba(255,255,255,.5); }
+    .footer-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+    .footer-links a {
+      color: rgba(255,255,255,.35);
+      text-decoration: none;
+      font-size: .875rem;
+      transition: color .2s;
+    }
+    .footer-links a:hover { color: var(--green); }
+    .footer-copy {
+      font-size: .8rem;
+      color: rgba(255,255,255,.2);
+    }
+
+    /* ─── SECTION DIVIDERS ─────────────────────────────────────────── */
+    .wave-divider {
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      z-index: 3;
+      line-height: 0;
+    }
+    .wave-divider svg { display: block; width: 100%; }
+
+    /* ─── ANIMATIONS / REVEAL ──────────────────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity .8s ease, transform .8s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-left {
+      opacity: 0;
+      transform: translateX(-40px);
+      transition: opacity .8s ease, transform .8s ease;
+    }
+    .reveal-left.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .reveal-right {
+      opacity: 0;
+      transform: translateX(40px);
+      transition: opacity .8s ease, transform .8s ease;
+    }
+    .reveal-right.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .delay-1 { transition-delay: .15s !important; }
+    .delay-2 { transition-delay: .3s  !important; }
+    .delay-3 { transition-delay: .45s !important; }
+    .delay-4 { transition-delay: .6s  !important; }
+
+    /* ─── FLOATING SHAPES ──────────────────────────────────────────── */
+    .shape {
+      position: absolute;
+      pointer-events: none;
+      z-index: 1;
+      border-radius: 50%;
+      opacity: .04;
+    }
+    .shape-1 {
+      width: 600px; height: 600px;
+      background: var(--green);
+      top: -200px; right: -200px;
+    }
+    .shape-2 {
+      width: 400px; height: 400px;
+      background: var(--blue);
+      bottom: -100px; left: -150px;
+    }
+
+    /* ─── RESPONSIVE ───────────────────────────────────────────────── */
+    @media (max-width: 1024px) {
+      .hero-inner, .vitality-layout, .results-layout {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+      }
+      .hero-stats { flex-direction: row; flex-wrap: wrap; }
+      .stat-card { flex: 1; min-width: 160px; }
+      .hero-stats { display: grid; grid-template-columns: repeat(2,1fr); }
+      .vitality-circle { width: 300px; height: 300px; }
+      .vitality-circle-inner { width: 230px; height: 230px; }
+      .problem-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hero-inner { grid-template-columns: 1fr; }
+      .hero-stats { grid-template-columns: repeat(2,1fr); }
+      .problem-grid { grid-template-columns: 1fr; }
+      .ootb-grid { grid-template-columns: 1fr; }
+      .testimonials-grid { grid-template-columns: 1fr; }
+      .results-counters { grid-template-columns: repeat(2,1fr); }
+      .contact-form { grid-template-columns: 1fr; }
+      .form-group.full { grid-column: 1; }
+      footer { flex-direction: column; text-align: center; }
+      .footer-links { flex-wrap: wrap; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════
+     NAVIGATION
+══════════════════════════════════════════════════ -->
+<nav id="mainNav">
+  <a href="#" class="nav-logo">Vegro<span>Groei</span></a>
+  <ul class="nav-links">
+    <li><a href="#probleem">Het Probleem</a></li>
+    <li><a href="#vitaliteit">Vitaliteit</a></li>
+    <li><a href="#outofthebox">Aanpak</a></li>
+    <li><a href="#resultaten">Resultaten</a></li>
+    <li><a href="#testimonials">Ervaringen</a></li>
+    <li><a href="#contact" class="nav-cta">Gratis Gesprek</a></li>
+  </ul>
+</nav>
+
+<!-- ══════════════════════════════════════════════════
+     HERO
+══════════════════════════════════════════════════ -->
+<section id="hero" class="parallax-section" style="min-height:100vh;">
+  <div class="parallax-bg" id="heroBg"></div>
+
+  <!-- Particles -->
+  <div class="hero-particles" id="particles"></div>
+
+  <!-- Decorative shapes -->
+  <div class="shape shape-1"></div>
+  <div class="shape shape-2"></div>
+
+  <div class="overlay" style="background:linear-gradient(160deg,rgba(5,21,34,.92) 0%,rgba(9,30,58,.75) 100%);"></div>
+
+  <div class="section-content">
+    <div class="hero-inner">
+      <!-- Left: copy -->
+      <div>
+        <div class="hero-badge reveal">
+          <span class="dot"></span>
+          Bewezen resultaten · Nederland
+        </div>
+        <h1 class="hero-title reveal delay-1">
+          Versneld<br>
+          <span class="accent-green">Verzuim</span><br>
+          Terugdringen &amp;<br>
+          <span class="accent-teal">Vitaliteit</span> Boost
+        </h1>
+        <p class="hero-sub reveal delay-2">
+          Wij helpen organisaties om verzuim structureel en snel te verlagen
+          met een <strong style="color:#fff;">out-of-the-box</strong> aanpak
+          die ingrijpt op gedrag, cultuur én systeem.
+          Resultaat: vitale medewerkers en aantoonbare ROI binnen 90 dagen.
+        </p>
+        <div class="hero-actions reveal delay-3">
+          <a href="#contact" class="btn-primary">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            Start vandaag
+          </a>
+          <a href="#outofthebox" class="btn-ghost">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+            Bekijk de aanpak
+          </a>
+        </div>
+      </div>
+
+      <!-- Right: stats -->
+      <div class="hero-stats reveal-right delay-1">
+        <div class="stat-card">
+          <div class="stat-number">
+            <span class="counter" data-target="62">0</span><span class="unit">%</span>
+          </div>
+          <div class="stat-label">Gemiddelde daling van verzuimpercentage bij onze klanten na jaar 1</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">
+            <span class="counter" data-target="90">0</span><span class="unit"> dgn</span>
+          </div>
+          <div class="stat-label">Zichtbaar resultaat gegarandeerd binnen 90 werkdagen</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">
+            &euro;<span class="counter" data-target="3400">0</span>
+          </div>
+          <div class="stat-label">Gemiddelde kostenbesparing per medewerker per jaar</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">
+            <span class="counter" data-target="240">0</span><span class="unit">+</span>
+          </div>
+          <div class="stat-label">Organisaties succesvol begeleid in heel Nederland</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="scroll-indicator">
+    <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
+    Scroll
+  </div>
+
+  <!-- Wave bottom -->
+  <div class="wave-divider">
+    <svg viewBox="0 0 1440 80" preserveAspectRatio="none" fill="#f4fbf8">
+      <path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     PROBLEEM
+══════════════════════════════════════════════════ -->
+<section id="probleem" class="parallax-section">
+  <div class="parallax-bg" style="background:linear-gradient(160deg,#f4fbf8 0%,#e8f8f0 50%,#eaf4ff 100%);"></div>
+  <div class="overlay" style="background:rgba(240,252,247,.15);"></div>
+
+  <div class="section-content">
+    <div class="section-inner">
+      <div style="max-width:680px;" class="reveal">
+        <span class="section-label">📊 De realiteit</span>
+        <h2 class="section-title">
+          Verzuim kost Nederland<br>
+          <span class="highlight">miljarden</span> per jaar
+        </h2>
+        <p class="section-desc">
+          Werkgerelateerd verzuim is geen toeval — het is een symptoom van dieperliggende
+          problemen in cultuur, leiderschap en vitaliteit. Vroeg ingrijpen is het verschil
+          tussen een afdoende pleister en een structurele oplossing.
+        </p>
+      </div>
+
+      <div class="problem-grid">
+        <div class="problem-card reveal delay-1">
+          <span class="problem-icon">💸</span>
+          <h3>Directe Kosten</h3>
+          <p>Loondoorbetaling, vervanging, re-integratie en productieverlies stapelen zich razendsnel op tot een aanzienlijke rekening.</p>
+          <span class="problem-stat">€ 415 per dag</span>
+        </div>
+        <div class="problem-card reveal delay-2">
+          <span class="problem-icon">🔄</span>
+          <h3>Herhaalverzuim</h3>
+          <p>Zonder aanpak van de onderliggende oorzaak keert meer dan de helft van de verzuimers binnen 12 maanden terug in ziekteverzuim.</p>
+          <span class="problem-stat">54%</span>
+        </div>
+        <div class="problem-card reveal delay-3">
+          <span class="problem-icon">😔</span>
+          <h3>Verborgen Verzuim</h3>
+          <p>Medewerkers die wél aanwezig zijn maar niet functioneren kosten gemiddeld twee keer zo veel als geregistreerd verzuim.</p>
+          <span class="problem-stat">2× zo duur</span>
+        </div>
+        <div class="problem-card reveal delay-1">
+          <span class="problem-icon">⚖️</span>
+          <h3>Wet Poortwachter Risico</h3>
+          <p>Fouten in het re-integratieproces leiden tot boetes en loonsancties. Compliance is geen optie, het is verplichting.</p>
+          <span class="problem-stat">€ 40.000+</span>
+        </div>
+        <div class="problem-card reveal delay-2">
+          <span class="problem-icon">🧠</span>
+          <h3>Mentale Belasting</h3>
+          <p>Burn-out en overspannenheid zijn de snelst groeiende verzuimoorzaken — en vereisen een totaal andere aanpak dan fysiek verzuim.</p>
+          <span class="problem-stat">+38%</span>
+        </div>
+        <div class="problem-card reveal delay-3">
+          <span class="problem-icon">📉</span>
+          <h3>Teamdynamiek</h3>
+          <p>Aanhoudend verzuim ondermijnt de motivatie van aanwezige collega's en creëert een negatieve spiraal die zonder interventie versterkt.</p>
+          <span class="problem-stat">-28% productiviteit</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wave-divider">
+    <svg viewBox="0 0 1440 80" preserveAspectRatio="none" fill="#0d1b2a">
+      <path d="M0,20 C480,80 960,0 1440,50 L1440,80 L0,80 Z"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     VITALITEIT
+══════════════════════════════════════════════════ -->
+<section id="vitaliteit" class="parallax-section">
+  <div class="parallax-bg" id="vitBg"></div>
+  <div class="overlay" style="background:rgba(13,27,42,.1);"></div>
+  <div class="shape shape-1" style="opacity:.06;"></div>
+
+  <div class="section-content">
+    <div class="section-inner">
+      <div class="vitality-layout">
+        <!-- Visual -->
+        <div class="vitality-visual reveal-left">
+          <div class="vitality-circle">
+            <div class="vitality-circle-inner">
+              <div class="big-number"><span class="counter" data-target="91">0</span>%</div>
+              <div class="big-label">Vitaliteitsscore bij succesvolle klanten</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Content -->
+        <div class="vitality-pillars">
+          <div class="reveal">
+            <span class="section-label">🌱 Onze methodiek</span>
+            <h2 class="section-title">Vitaliteit als<br><span class="highlight" style="color:var(--green);">fundament</span></h2>
+            <p class="section-desc">
+              Gezonde medewerkers zijn geen geluk — het is het gevolg van
+              een doordacht programma dat fysiek, mentaal en sociaal welzijn
+              structureel verankert in uw organisatie.
+            </p>
+          </div>
+
+          <div class="pillar reveal delay-1">
+            <div class="pillar-icon g">🏃</div>
+            <div class="pillar-text">
+              <h3>Fysieke Vitaliteit</h3>
+              <p>Beweging, ergonomie en werkplekoptimalisatie als dagelijkse gewoonte.</p>
+              <div class="pillar-bar">
+                <div class="bar-track"><div class="bar-fill" data-width="88"></div></div>
+                <span class="bar-pct">88%</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="pillar reveal delay-2">
+            <div class="pillar-icon b">🧘</div>
+            <div class="pillar-text">
+              <h3>Mentale Veerkracht</h3>
+              <p>Stressmanagement, mindfulness en cognitieve flexibiliteit training.</p>
+              <div class="pillar-bar">
+                <div class="bar-track"><div class="bar-fill" data-width="83"></div></div>
+                <span class="bar-pct">83%</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="pillar reveal delay-3">
+            <div class="pillar-icon t">🤝</div>
+            <div class="pillar-text">
+              <h3>Sociale Verbinding</h3>
+              <p>Teamcohesie, psychologische veiligheid en inclusief leiderschap.</p>
+              <div class="pillar-bar">
+                <div class="bar-track"><div class="bar-fill" data-width="91"></div></div>
+                <span class="bar-pct">91%</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="pillar reveal delay-4">
+            <div class="pillar-icon o">⚡</div>
+            <div class="pillar-text">
+              <h3>Energie &amp; Zingeving</h3>
+              <p>Purpose-driven werken, autonomie en persoonlijke groei als energiebron.</p>
+              <div class="pillar-bar">
+                <div class="bar-track"><div class="bar-fill" data-width="79"></div></div>
+                <span class="bar-pct">79%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wave-divider">
+    <svg viewBox="0 0 1440 80" preserveAspectRatio="none" fill="#f0fdf7">
+      <path d="M0,60 C360,0 1080,80 1440,30 L1440,80 L0,80 Z"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     OUT OF THE BOX
+══════════════════════════════════════════════════ -->
+<section id="outofthebox" class="parallax-section">
+  <div class="parallax-bg" style="background:linear-gradient(135deg,#eefff7 0%,#eaf5ff 50%,#fffaee 100%);"></div>
+
+  <div class="section-content">
+    <div class="section-inner">
+      <div class="boxes-header reveal">
+        <span class="section-label">💡 Out-of-the-box aanpak</span>
+        <h2 class="section-title" style="color:var(--dark);">
+          Wij doen wat anderen<br>
+          <span class="highlight">niet durven</span> te doen
+        </h2>
+        <p class="section-desc" style="color:var(--text-body);">
+          Conventionele verzuiminterventies lossen het symptoom op, niet het probleem.
+          Onze vier pijlers doorbreken patronen en creëren blijvende verandering.
+        </p>
+      </div>
+
+      <div class="ootb-grid">
+        <div class="ootb-card reveal delay-1">
+          <span class="card-number">01</span>
+          <span class="card-icon">🎯</span>
+          <h3>Predictieve Verzuimanalyse</h3>
+          <p>
+            Met data-driven tools signaleren we risico's op verzuim minstens
+            6 weken voordat een medewerker uitvalt. Vroeg ingrijpen is altijd
+            goedkoper dan curatief behandelen.
+          </p>
+          <span class="card-tag">Preventie · Data</span>
+        </div>
+
+        <div class="ootb-card reveal delay-2">
+          <span class="card-number">02</span>
+          <span class="card-icon">🔑</span>
+          <h3>Leiderschapstransformatie</h3>
+          <p>
+            80% van alle verzuimoorzaken heeft een directe link met leiderschapsgedrag.
+            We trainen managers op empathisch leiderschap, moeilijke gesprekken en
+            psychologische veiligheid — concreet, praktisch en meetbaar.
+          </p>
+          <span class="card-tag">Leiderschap · Cultuur</span>
+        </div>
+
+        <div class="ootb-card reveal delay-3">
+          <span class="card-number">03</span>
+          <span class="card-icon">🔬</span>
+          <h3>Vitaliteitslab</h3>
+          <p>
+            Een 360° gezondheidscheck combineert biometrie, energiescans en
+            psychologische profielen. Geen one-size-fits-all maar een individueel
+            actieplan per medewerker — op maat en in eigen tempo.
+          </p>
+          <span class="card-tag">Gezondheid · Personalisatie</span>
+        </div>
+
+        <div class="ootb-card reveal delay-4">
+          <span class="card-number">04</span>
+          <span class="card-icon">🚀</span>
+          <h3>90-Dagen Resultaatgarantie</h3>
+          <p>
+            Geen vaag traject zonder meetpunten. Wij garanderen aantoonbare
+            KPI-verbetering binnen 90 dagen — anders werken we kosteloos door.
+            Transparantie en accountability zijn onze belofte.
+          </p>
+          <span class="card-tag">Garantie · ROI</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wave-divider">
+    <svg viewBox="0 0 1440 80" preserveAspectRatio="none" fill="#0d1b2a">
+      <path d="M0,40 C480,0 960,80 1440,20 L1440,80 L0,80 Z"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     RESULTATEN
+══════════════════════════════════════════════════ -->
+<section id="resultaten" class="parallax-section">
+  <div class="parallax-bg" id="resBg"></div>
+  <div class="overlay" style="background:rgba(13,27,42,.1);"></div>
+
+  <div class="section-content">
+    <div class="section-inner">
+      <div style="text-align:center; max-width:700px; margin:0 auto 4rem;" class="reveal">
+        <span class="section-label">📈 Onze resultaten</span>
+        <h2 class="section-title" style="color:var(--white);">
+          Cijfers die<br>
+          <span style="color:var(--green);">voor zichzelf</span> spreken
+        </h2>
+      </div>
+
+      <div class="results-layout">
+        <!-- Counters -->
+        <div class="results-counters">
+          <div class="counter-box reveal delay-1">
+            <div class="counter-num"><span class="counter" data-target="62">0</span><span class="suffix">%</span></div>
+            <div class="counter-lbl">Lager verzuimpercentage na jaar 1</div>
+          </div>
+          <div class="counter-box reveal delay-2">
+            <div class="counter-num"><span class="counter" data-target="240">0</span><span class="suffix">+</span></div>
+            <div class="counter-lbl">Tevreden organisaties</div>
+          </div>
+          <div class="counter-box reveal delay-3" style="border-color:rgba(0,194,203,.2);">
+            <div class="counter-num" style="color:var(--teal);"><span class="counter" data-target="4400">0</span></div>
+            <div class="counter-lbl">Gemiddelde besparing per medewerker</div>
+          </div>
+          <div class="counter-box reveal delay-4">
+            <div class="counter-num"><span class="counter" data-target="97">0</span><span class="suffix">%</span></div>
+            <div class="counter-lbl">Klanttevredenheidsscore</div>
+          </div>
+          <div class="counter-box reveal delay-1" style="grid-column:1/-1; border-color:rgba(255,107,53,.15);">
+            <div class="counter-num" style="color:var(--orange);font-size:2.2rem;"><span class="counter" data-target="90">0</span><span class="suffix"> dgn</span></div>
+            <div class="counter-lbl" style="font-size:.95rem;">Gegarandeerde zichtbare resultaten — of we werken kosteloos door</div>
+          </div>
+        </div>
+
+        <!-- Timeline -->
+        <div class="timeline reveal-right">
+          <div class="section-label" style="color:var(--teal);margin-bottom:1.5rem;">Hoe het werkt</div>
+
+          <div class="timeline-item">
+            <div class="tl-dot-col tl-line">
+              <div class="tl-dot">📋</div>
+            </div>
+            <div class="tl-body">
+              <div class="tl-when">Week 1–2</div>
+              <h4>Nulmeting &amp; Diagnose</h4>
+              <p>Complete scan van verzuimdata, cultuur, leiderschap en vitaliteitsscores. We weten waar het echt hapert.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="tl-dot-col tl-line">
+              <div class="tl-dot">🗺️</div>
+            </div>
+            <div class="tl-body">
+              <div class="tl-when">Week 3–4</div>
+              <h4>Maatwerk Actieplan</h4>
+              <p>Op basis van de diagnose stellen we een concreet plan op met meetbare doelen en heldere verantwoordelijkheden.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="tl-dot-col tl-line">
+              <div class="tl-dot">⚙️</div>
+            </div>
+            <div class="tl-body">
+              <div class="tl-when">Week 5–12</div>
+              <h4>Intensieve Implementatie</h4>
+              <p>Trainingen, coaching, leiderschapsprogramma's en vitaliteitsinterventies lopen parallel en versterken elkaar.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="tl-dot-col">
+              <div class="tl-dot">🏆</div>
+            </div>
+            <div class="tl-body">
+              <div class="tl-when">Maand 3+</div>
+              <h4>Borging &amp; Groei</h4>
+              <p>We verankeren de verandering in uw systemen en cultuur zodat het resultaat blijvend is — zonder ons.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wave-divider">
+    <svg viewBox="0 0 1440 80" preserveAspectRatio="none" fill="#f0fdf7">
+      <path d="M0,50 C360,10 1080,70 1440,30 L1440,80 L0,80 Z"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     TESTIMONIALS
+══════════════════════════════════════════════════ -->
+<section id="testimonials" class="parallax-section">
+  <div class="parallax-bg" style="background:linear-gradient(160deg,#f0fdf7 0%,#f5f8ff 60%,#fffcf0 100%);"></div>
+
+  <div class="section-content">
+    <div class="section-inner">
+      <div class="testimonials-header reveal">
+        <span class="section-label">💬 Wat klanten zeggen</span>
+        <h2 class="section-title" style="color:var(--dark);">
+          Resultaten die <span class="highlight">écht</span> bereikt zijn
+        </h2>
+        <p class="section-desc" style="color:var(--text-body);">
+          Geen opgeklopte marketingteksten maar echte ervaringen van echte HR-professionals en directeuren.
+        </p>
+      </div>
+
+      <div class="testimonials-grid">
+        <div class="testimonial-card reveal delay-1">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">
+            "In zes maanden daalde ons verzuim van 7,4% naar 2,9%. Ongelooflijk
+            wat er mogelijk is als je bereid bent echt anders te kijken. Het team
+            deed wat andere bureaus nooit durfden aankaarten."
+          </p>
+          <div class="testimonial-author">
+            <div class="author-avatar a1">MV</div>
+            <div class="author-info">
+              <div class="name">Marieke van der Berg</div>
+              <div class="role">HR-directeur · Productie, 280 medewerkers</div>
+            </div>
+          </div>
+          <span class="result-tag">↓ 61% verzuim</span>
+        </div>
+
+        <div class="testimonial-card reveal delay-2">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">
+            "Eindelijk een aanpak die begrijpt dat verzuim een managementvraagstuk
+            is, niet alleen een HR-kwestie. De leiderschapstraining was een
+            eye-opener voor onze hele MT. Concrete tools, direct toepasbaar."
+          </p>
+          <div class="testimonial-author">
+            <div class="author-avatar a2">JK</div>
+            <div class="author-info">
+              <div class="name">Joost Kuijpers</div>
+              <div class="role">Algemeen Directeur · Logistiek, 520 fte</div>
+            </div>
+          </div>
+          <span class="result-tag">€ 1,2 mln bespaard</span>
+        </div>
+
+        <div class="testimonial-card reveal delay-3">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">
+            "Het vitaliteitslab was de gamechanger. Iedereen kreeg een persoonlijk
+            plan dat echt werkte. Onze medewerkers voelen zich gehoord en de
+            betrokkenheid is spectaculair gestegen. Aanrader voor elke organisatie."
+          </p>
+          <div class="testimonial-author">
+            <div class="author-avatar a3">SR</div>
+            <div class="author-info">
+              <div class="name">Sandra Roos</div>
+              <div class="role">P&O Manager · Zorg, 190 medewerkers</div>
+            </div>
+          </div>
+          <span class="result-tag">+44% medewerkerstevredenheid</span>
+        </div>
+      </div>
+
+      <!-- Logos strip -->
+      <div class="reveal" style="margin-top:4rem; text-align:center;">
+        <p style="font-size:.78rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--text-light);margin-bottom:1.5rem;">Vertrouwd door leiders in</p>
+        <div style="display:flex;flex-wrap:wrap;gap:2rem;justify-content:center;align-items:center;opacity:.4;">
+          <div style="font-size:1rem;font-weight:700;color:var(--dark);">Logistiek</div>
+          <div style="width:3px;height:3px;background:var(--green);border-radius:50%;"></div>
+          <div style="font-size:1rem;font-weight:700;color:var(--dark);">Zorg &amp; Welzijn</div>
+          <div style="width:3px;height:3px;background:var(--green);border-radius:50%;"></div>
+          <div style="font-size:1rem;font-weight:700;color:var(--dark);">Productie</div>
+          <div style="width:3px;height:3px;background:var(--green);border-radius:50%;"></div>
+          <div style="font-size:1rem;font-weight:700;color:var(--dark);">Retail</div>
+          <div style="width:3px;height:3px;background:var(--green);border-radius:50%;"></div>
+          <div style="font-size:1rem;font-weight:700;color:var(--dark);">Overheid</div>
+          <div style="width:3px;height:3px;background:var(--green);border-radius:50%;"></div>
+          <div style="font-size:1rem;font-weight:700;color:var(--dark);">Bouw &amp; Infra</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wave-divider">
+    <svg viewBox="0 0 1440 80" preserveAspectRatio="none" fill="#0d1b2a">
+      <path d="M0,30 C480,80 960,10 1440,55 L1440,80 L0,80 Z"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     CONTACT / CTA
+══════════════════════════════════════════════════ -->
+<section id="contact" class="parallax-section">
+  <div class="parallax-bg" id="ctaBg"></div>
+  <div class="overlay" style="background:rgba(6,15,23,.1);"></div>
+
+  <div class="section-content">
+    <div class="cta-inner">
+      <span class="section-label" style="color:var(--teal);display:block;margin-bottom:1rem;" class="reveal">🤝 Pak het aan</span>
+      <h2 class="section-title reveal">
+        Klaar om uw verzuim<br>
+        <span style="color:var(--green);">versneld te halveren?</span>
+      </h2>
+      <p class="section-desc reveal delay-1">
+        Plan een vrijblijvend strategiegesprek van 30 minuten.
+        We analyseren uw situatie en geven direct bruikbare inzichten mee —
+        ook als u besluit niet met ons samen te werken.
+      </p>
+
+      <form class="contact-form reveal delay-2" onsubmit="handleSubmit(event)">
+        <div class="form-group">
+          <label for="fname">Voornaam</label>
+          <input type="text" id="fname" placeholder="Jan" required />
+        </div>
+        <div class="form-group">
+          <label for="lname">Achternaam</label>
+          <input type="text" id="lname" placeholder="de Vries" required />
+        </div>
+        <div class="form-group">
+          <label for="email">E-mailadres</label>
+          <input type="email" id="email" placeholder="jan@bedrijf.nl" required />
+        </div>
+        <div class="form-group">
+          <label for="phone">Telefoonnummer</label>
+          <input type="tel" id="phone" placeholder="+31 6 12 34 56 78" />
+        </div>
+        <div class="form-group">
+          <label for="company">Organisatie</label>
+          <input type="text" id="company" placeholder="Bedrijfsnaam" required />
+        </div>
+        <div class="form-group">
+          <label for="size">Organisatiegrootte</label>
+          <select id="size">
+            <option value="">Selecteer...</option>
+            <option>10–50 medewerkers</option>
+            <option>51–200 medewerkers</option>
+            <option>201–500 medewerkers</option>
+            <option>500+ medewerkers</option>
+          </select>
+        </div>
+        <div class="form-group full">
+          <label for="message">Wat is uw grootste uitdaging?</label>
+          <textarea id="message" placeholder="Beschrijf uw verzuimsituatie of vitaliteitsuitdaging..."></textarea>
+        </div>
+        <div class="form-submit">
+          <button type="submit" class="btn-submit">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            Stuur mijn aanvraag
+          </button>
+        </div>
+      </form>
+
+      <div id="form-success" style="display:none; margin-top:2rem; padding:1.5rem; background:rgba(0,201,122,.12); border:1px solid rgba(0,201,122,.3); border-radius:16px; color:var(--green); font-weight:600; font-size:1.05rem;">
+        ✅ Bedankt! We nemen binnen 1 werkdag contact met u op.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     FOOTER
+══════════════════════════════════════════════════ -->
+<footer>
+  <a href="#" class="footer-logo">Vegro<span>Groei</span></a>
+  <ul class="footer-links">
+    <li><a href="#probleem">Probleem</a></li>
+    <li><a href="#vitaliteit">Vitaliteit</a></li>
+    <li><a href="#outofthebox">Aanpak</a></li>
+    <li><a href="#resultaten">Resultaten</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="footer-copy">© 2026 VegroGroei · Alle rechten voorbehouden</div>
+</footer>
+
+<!-- ══════════════════════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════════════════════ -->
+<script>
+  /* ── PARTICLES ─────────────────────────────────────────── */
+  (function createParticles() {
+    const container = document.getElementById('particles');
+    const colors = ['#00c97a','#00c2cb','#0a6cff','#ffd166','#ff6b35'];
+    for (let i = 0; i < 50; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const size = Math.random() * 6 + 2;
+      p.style.cssText = `
+        width:${size}px; height:${size}px;
+        background:${colors[Math.floor(Math.random()*colors.length)]};
+        left:${Math.random()*100}%;
+        animation-duration:${Math.random()*15+8}s;
+        animation-delay:${Math.random()*10}s;
+      `;
+      container.appendChild(p);
+    }
+  })();
+
+  /* ── NAV SCROLL ────────────────────────────────────────── */
+  const nav = document.getElementById('mainNav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.pageYOffset > 60);
+  });
+
+  /* ── PARALLAX ──────────────────────────────────────────── */
+  const parallaxBgs = document.querySelectorAll('.parallax-bg');
+  function updateParallax() {
+    parallaxBgs.forEach(bg => {
+      const section = bg.closest('.parallax-section');
+      if (!section) return;
+      const rect = section.getBoundingClientRect();
+      const progress = -rect.top / window.innerHeight;
+      const offset = progress * 60;
+      bg.style.transform = `translateY(${offset}px)`;
+    });
+  }
+  window.addEventListener('scroll', updateParallax, { passive: true });
+  updateParallax();
+
+  /* ── SECTIONS INDEX ────────────────────────────────────── */
+  const sections = Array.from(document.querySelectorAll('.parallax-section, footer')).filter(
+    s => s.id || s.tagName === 'FOOTER'
+  );
+  // Add footer as a reachable "section" using its own element
+  const allSections = Array.from(document.querySelectorAll('section[id], #contact'));
+
+  // Deduplicate by id
+  const sectionList = [];
+  const seen = new Set();
+  document.querySelectorAll('section.parallax-section').forEach(s => {
+    if (!seen.has(s.id)) { seen.add(s.id); sectionList.push(s); }
+  });
+
+  /* ── ANIMATION HELPERS ─────────────────────────────────── */
+  function resetSectionAnimations(section) {
+    // Reset reveal elements
+    section.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => {
+      el.classList.remove('visible');
+    });
+    // Reset bars
+    section.querySelectorAll('.bar-fill').forEach(bar => {
+      bar.style.width = '0';
+    });
+    // Reset counters to 0
+    section.querySelectorAll('.counter').forEach(el => {
+      el.textContent = '0';
+      el._counted = false;
+    });
+  }
+
+  function playSectionAnimations(section) {
+    // Trigger reveals with stagger
+    section.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach((el, i) => {
+      setTimeout(() => el.classList.add('visible'), i * 80);
+    });
+    // Trigger bars
+    section.querySelectorAll('.bar-fill').forEach(bar => {
+      setTimeout(() => { bar.style.width = bar.dataset.width + '%'; }, 400);
+    });
+    // Trigger counters
+    section.querySelectorAll('.counter').forEach(el => {
+      if (!el._counted) {
+        el._counted = true;
+        setTimeout(() => animateCounter(el), 300);
+      }
+    });
+  }
+
+  /* ── REVEAL ON SCROLL ──────────────────────────────────── */
+  const reveals = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        entry.target.querySelectorAll('.bar-fill').forEach(bar => {
+          bar.style.width = bar.dataset.width + '%';
+        });
+      }
+    });
+  }, { threshold: 0.15 });
+  reveals.forEach(el => observer.observe(el));
+
+  /* Also observe bars outside reveal wrappers */
+  const barObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.width = entry.target.dataset.width + '%';
+      }
+    });
+  }, { threshold: 0.5 });
+  document.querySelectorAll('.bar-fill').forEach(b => barObserver.observe(b));
+
+  /* ── COUNTER ANIMATION ────────────────────────────────── */
+  function animateCounter(el) {
+    const target = parseInt(el.dataset.target);
+    const duration = 2000;
+    const step = target / (duration / 16);
+    let current = 0;
+    const timer = setInterval(() => {
+      current = Math.min(current + step, target);
+      el.textContent = target >= 1000
+        ? Math.floor(current).toLocaleString('nl-NL')
+        : Math.floor(current);
+      if (current >= target) clearInterval(timer);
+    }, 16);
+  }
+
+  const counterObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !entry.target._counted) {
+        entry.target._counted = true;
+        animateCounter(entry.target);
+      }
+    });
+  }, { threshold: 0.5 });
+  document.querySelectorAll('.counter').forEach(c => counterObserver.observe(c));
+
+  /* ── SMOOTH SCROLL ─────────────────────────────────────── */
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+  /* ── PAGE UP / PAGE DOWN SECTION NAVIGATION ────────────── */
+  let isScrolling = false;
+
+  function getCurrentSectionIndex() {
+    const mid = window.innerHeight / 2;
+    let best = 0;
+    let bestDist = Infinity;
+    sectionList.forEach((sec, i) => {
+      const rect = sec.getBoundingClientRect();
+      const dist = Math.abs(rect.top + rect.height / 2 - mid);
+      if (dist < bestDist) { bestDist = dist; best = i; }
+    });
+    return best;
+  }
+
+  function navigateToSection(index) {
+    if (index < 0 || index >= sectionList.length) return;
+    if (isScrolling) return;
+    isScrolling = true;
+
+    const target = sectionList[index];
+
+    // Reset & replay animations for the target section
+    resetSectionAnimations(target);
+
+    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    // After scroll settles, fire animations
+    setTimeout(() => {
+      playSectionAnimations(target);
+      isScrolling = false;
+    }, 700);
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'PageDown') {
+      e.preventDefault();
+      navigateToSection(getCurrentSectionIndex() + 1);
+    } else if (e.key === 'PageUp') {
+      e.preventDefault();
+      navigateToSection(getCurrentSectionIndex() - 1);
+    }
+  });
+
+  /* ── FORM SUBMIT ───────────────────────────────────────── */
+  function handleSubmit(e) {
+    e.preventDefault();
+    document.querySelector('.contact-form').style.display = 'none';
+    document.getElementById('form-success').style.display = 'block';
+  }
+</script>
+</body>
+</html>
